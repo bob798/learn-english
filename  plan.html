@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bob 的英语学习计划</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;color:#1a1a1a;background:#fafaf9;line-height:1.7;max-width:920px;margin:0 auto;padding:48px 28px}
+  h1{font-size:34px;font-weight:600;margin-bottom:8px;letter-spacing:-0.02em}
+  h2{font-size:22px;font-weight:600;margin:56px 0 16px;padding-bottom:10px;border-bottom:2px solid #e5e5e3}
+  h3{font-size:17px;font-weight:600;margin:28px 0 10px}
+  p{margin:10px 0}
+  .subtitle{color:#6b6b68;font-size:15px;margin-bottom:40px}
+  .meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;padding:20px 24px;background:white;border:1px solid #e5e5e3;border-radius:12px;margin-bottom:32px}
+  .meta-item{font-size:13px}
+  .meta-label{color:#6b6b68;display:block;margin-bottom:3px;font-size:12px}
+  .meta-value{font-weight:600;color:#2c2c2a}
+  .tracks{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:16px 0}
+  .track{padding:16px 18px;border-radius:10px;border:1px solid}
+  .track-title{font-weight:600;font-size:15px;margin-bottom:4px}
+  .track-freq{font-size:12px;opacity:0.85;margin-bottom:8px;font-weight:500}
+  .track-desc{font-size:13px;line-height:1.6}
+  .track.reading{background:#e1f5ee;border-color:#9fe1cb;color:#085041}
+  .track.listening{background:#e6f1fb;border-color:#b5d4f4;color:#0c447c}
+  .track.vocab{background:#eeedfe;border-color:#cecbf6;color:#3c3489}
+  .track.grammar{background:#faeeda;border-color:#fac775;color:#633806}
+  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px;background:white;border-radius:8px;overflow:hidden;border:1px solid #e5e5e3}
+  th,td{text-align:left;padding:11px 14px;border-bottom:1px solid #e5e5e3;vertical-align:top}
+  th{background:#f5f4f1;font-weight:600;font-size:12px;color:#6b6b68;text-transform:uppercase;letter-spacing:0.05em}
+  tr:last-child td{border-bottom:none}
+  td.day{font-weight:600;width:60px;color:#2c2c2a}
+  td.time{width:85px;color:#6b6b68;font-size:12px;white-space:nowrap}
+  .week{margin:24px 0;padding:24px;background:white;border:1px solid #e5e5e3;border-radius:12px}
+  .week-num{font-size:12px;color:#534ab7;text-transform:uppercase;letter-spacing:0.1em;font-weight:600}
+  .week-title{font-size:18px;font-weight:600;margin:4px 0 8px}
+  .week-focus{display:inline-block;padding:3px 10px;background:#faeeda;color:#854f0b;font-size:12px;border-radius:20px;margin-bottom:14px;font-weight:500}
+  .week-milestone{margin-top:14px;padding:12px 16px;background:#e1f5ee;border-left:3px solid #1d9e75;font-size:13px;border-radius:0 6px 6px 0}
+  .week-milestone strong{color:#085041}
+  .daily-note{margin-top:10px;font-size:12px;color:#6b6b68;font-style:italic}
+  .phase{margin:16px 0;padding:18px 22px;background:white;border:1px solid #e5e5e3;border-radius:10px;border-left:4px solid #534ab7}
+  .phase-label{font-size:12px;color:#534ab7;text-transform:uppercase;letter-spacing:0.08em;font-weight:600}
+  .phase-title{font-size:17px;font-weight:600;margin:4px 0 10px}
+  .phase ul{margin-left:20px}
+  .phase li{margin:4px 0;font-size:14px}
+  ul{margin:8px 0 8px 24px}
+  ul li{margin:5px 0}
+  .materials{display:grid;grid-template-columns:70px 1fr;gap:12px;margin:10px 0;font-size:13px;align-items:start}
+  .tag{display:inline-block;padding:3px 10px;font-size:11px;border-radius:4px;font-weight:500;text-align:center;white-space:nowrap}
+  .tag.green{background:#eaf3de;color:#3b6d11}
+  .tag.yellow{background:#faeeda;color:#854f0b}
+  .tag.red{background:#fcebeb;color:#a32d2d}
+  .check-list{margin:12px 0;padding:0}
+  .check-list li{list-style:none;padding:7px 0 7px 30px;position:relative;font-size:14px}
+  .check-list li::before{content:"☐";position:absolute;left:0;color:#888780;font-size:18px;top:4px}
+  .tip{padding:14px 18px;background:#f5f4f1;border-radius:8px;font-size:13px;margin:14px 0;border-left:3px solid #888780}
+  .tip strong{color:#2c2c2a}
+  .principle{padding:14px 18px;background:#eeedfe;border-radius:8px;margin:8px 0;font-size:14px}
+  .principle strong{color:#3c3489}
+  footer{margin-top:60px;padding-top:20px;border-top:1px solid #e5e5e3;font-size:12px;color:#888780;text-align:center}
+  @media print{body{max-width:none;padding:20px}h2{page-break-after:avoid}.week,.phase{page-break-inside:avoid}}
+  @media(max-width:600px){body{padding:24px 16px}h1{font-size:26px}h2{font-size:19px}.tracks{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<h1>Bob 的英语学习计划</h1>
+<p class="subtitle">Systematic English Learning Plan · A2 → B1+ · 6 个月</p>
+
+<div class="meta">
+  <div class="meta-item"><span class="meta-label">当前水平</span><span class="meta-value">CEFR A2</span></div>
+  <div class="meta-item"><span class="meta-label">目标水平</span><span class="meta-value">B1+ → B2</span></div>
+  <div class="meta-item"><span class="meta-label">每日时间</span><span class="meta-value">30-60 分钟</span></div>
+  <div class="meta-item"><span class="meta-label">短期目标</span><span class="meta-value">读懂 AI 论文</span></div>
+  <div class="meta-item"><span class="meta-label">中期目标</span><span class="meta-value">雅思 6.5 · 申美国远程硕士</span></div>
+</div>
+
+<h2>一、核心机制：4 轨学习系统</h2>
+
+<p>英语是技能，不是学科。技能靠"高频+低强度"积累。每日预算拆成 4 条平行轨道，各自按自己的节奏滚动：</p>
+
+<div class="tracks">
+  <div class="track reading">
+    <div class="track-title">📖 阅读 Reading</div>
+    <div class="track-freq">每周 3 次 · 30 分钟</div>
+    <div class="track-desc">AI 技术短文、产品文章。精读 + 泛读结合。每次拆 5-8 个工作高频词。</div>
+  </div>
+  <div class="track listening">
+    <div class="track-title">🎧 听力 Listening</div>
+    <div class="track-freq">每周 2 次 · 30 分钟</div>
+    <div class="track-desc">BBC 6 Minute English 为主 + BBC English at Work 并行。6 步漏斗精听法。</div>
+  </div>
+  <div class="track vocab">
+    <div class="track-title">📝 词汇 Vocabulary</div>
+    <div class="track-freq">每日 · 15 分钟</div>
+    <div class="track-desc">只记本周见过的词。Anki 卡片，3×5 分钟碎片化拆分。</div>
+  </div>
+  <div class="track grammar">
+    <div class="track-title">📏 语法 Grammar</div>
+    <div class="track-freq">每周 1 次 · 30 分钟</div>
+    <div class="track-desc">按"读懂英文句子所需最小集"排序。1 个点 + 5 道针对性练习。</div>
+  </div>
+</div>
+
+<div class="tip">
+  <strong>核心认知：</strong>阅读是发动机，带着其他 3 条一起前进；词汇是每天的润滑油；听力和语法在阅读的反复应用中内化。
+</div>
+
+<h2>二、第 1 个月详细计划（4 周）</h2>
+
+<div class="week">
+  <div class="week-num">Week 1</div>
+  <div class="week-title">起步 · 建立习惯和节奏</div>
+  <div class="week-focus">本周焦点：一般现在时复习 · 代词指代</div>
+  <table>
+    <thead><tr><th>星期</th><th>活动</th><th>时长</th></tr></thead>
+    <tbody>
+      <tr><td class="day">周一</td><td>📖 阅读 1：AI Agents 短文（泛读 + 精读对照）</td><td class="time">30 分钟</td></tr>
+      <tr><td class="day">周二</td><td>🎧 BBC 6 Minute English 第 1 集精听</td><td class="time">30 分钟</td></tr>
+      <tr><td class="day">周三</td><td>📖 阅读 2：Anthropic 博客短文</td><td class="time">30 分钟</td></tr>
+      <tr><td class="day">周四</td><td>📏 语法：一般现在时系统复习（含三单规则）</td><td class="time">30 分钟</td></tr>
+      <tr><td class="day">周五</td><td>🎧 BBC English at Work 第 1 集（续讲 Anna 面试段）</td><td class="time">30 分钟</td></tr>
+      <tr><td class="day">周六</td><td>📖 阅读 3：Hugging Face 博客短文</td><td class="time">30 分钟</td></tr>
+      <tr><td class="day">周日</td><td>🔁 复盘：错题本 + 5 道词汇回忆测</td><td class="time">15-30 分钟</td></tr>
+    </tbody>
+  </table>
+  <p class="daily-note">+ 每日 15 分钟碎片时间词汇复习</p>
+  <div class="week-milestone">
+    <strong>✓ 本周里程碑：</strong>积累 15-20 个工作高频词；跟读过 5+ 句英文；建立"打开 Claude 就知道今天学什么"的习惯
+  </div>
+</div>
+
+<div class="week">
+  <div class="week-num">Week 2</div>
+  <div class="week-title">加速 · 在真实材料中发现语言规律</div>
+  <div class="week-focus">本周焦点：一般过去时 · 连读规律（gonna / wanna / gotta）</div>
+  <table>
+    <thead><tr><th>星期</th><th>活动</th><th>时长</th></tr></thead>
+    <tbody>
+      <tr><td class="day">周一</td><td>📖 阅读 4：OpenAI 博客短文</td><td class="time">30 分钟</td></tr>
+      <tr><td class="day">周二</td><td>🎧 BBC 6 Minute English 第 2 集</td><td class="time">30 分钟</td></tr>
+      <tr><td class="day">周三</td><td>📖 阅读 5：Simon Willison 博客片段</td><td class="time">30 分钟</td></tr>
+      <tr><td class="day">周四</td><td>📏 语法：一般过去时 + was / were</td><td class="time">30 分钟</td></tr>
+      <tr><td class="day">周五</td><td>🎧 BBC English at Work 第 1 集复听 + 影子跟读</td><td class="time">30 分钟</td></tr>
+      <tr><td class="day">周六</td><td>✍️ 轻量写作：用本周学的词写 5 句英文</td><td class="time">30 分钟</td></tr>
+      <tr><td class="day">周日</td><td>🔁 复盘 + Week 1 词汇回忆测</td><td class="time">15-30 分钟</td></tr>
+    </tbody>
+  </table>
+  <p class="daily-note">+ 每日 15 分钟碎片时间词汇复习</p>
+  <div class="week-milestone">
+    <strong>✓ 本周里程碑：</strong>能用过去时写 5 句工作英文；能自主识别 3 处连读；总词汇量达 30+
+  </div>
+</div>
+
+<div class="week">
+  <div class="week-num">Week 3</div>
+  <div class="week-title">深化 · 开始读略长的文章、引入 TED-Ed</div>
+  <div class="week-focus">本周焦点：现在进行时 · 长句主干拆解</div>
+  <table>
+    <thead><tr><th>星期</th><th>活动</th><th>时长</th></tr></thead>
+    <tbody>
+      <tr><td class="day">周一</td><td>📖 阅读 6：Anthropic 博客（300 词）</td><td class="time">30 分钟</td></tr>
+      <tr><td class="day">周二</td><td>🎧 BBC 6 Minute English 第 3 集</td><td class="time">30 分钟</td></tr>
+      <tr><td class="day">周三</td><td>📖 阅读 7：论文 Abstract 入门片段</td><td class="time">30 分钟</td></tr>
+      <tr><td class="day">周四</td><td>📏 语法：现在进行时 + 3 种时态对比</td><td class="time">30 分钟</td></tr>
+      <tr><td class="day">周五</td><td>🎧 TED-Ed：AI 主题短视频（首次引入）</td><td class="time">30 分钟</td></tr>
+      <tr><td class="day">周六</td><td>📖 阅读 8：英文产品更新日志</td><td class="time">30 分钟</td></tr>
+      <tr><td class="day">周日</td><td>🔁 复盘 + 总结本周连读/语法点</td><td class="time">15-30 分钟</td></tr>
+    </tbody>
+  </table>
+  <p class="daily-note">+ 每日 15 分钟碎片时间词汇复习</p>
+  <div class="week-milestone">
+    <strong>✓ 本周里程碑：</strong>能独立读懂 300 词 AI 短文的 70%；听过第一个 TED-Ed；掌握 3 种基本时态
+  </div>
+</div>
+
+<div class="week">
+  <div class="week-num">Week 4</div>
+  <div class="week-title">综合 · 月度输出、诊断与调整</div>
+  <div class="week-focus">本周焦点：现在完成时 · 月度成果输出</div>
+  <table>
+    <thead><tr><th>星期</th><th>活动</th><th>时长</th></tr></thead>
+    <tbody>
+      <tr><td class="day">周一</td><td>📖 阅读 9：GitHub Changelog 精读</td><td class="time">30 分钟</td></tr>
+      <tr><td class="day">周二</td><td>🎧 BBC 6 Minute English 第 4 集</td><td class="time">30 分钟</td></tr>
+      <tr><td class="day">周三</td><td>📖 阅读 10：论文摘要完整版挑战</td><td class="time">30 分钟</td></tr>
+      <tr><td class="day">周四</td><td>📏 语法：现在完成时 + 月度综合练习</td><td class="time">30 分钟</td></tr>
+      <tr><td class="day">周五</td><td>🎧 复习本月所有听力精华片段</td><td class="time">30 分钟</td></tr>
+      <tr><td class="day">周六</td><td>✍️ 月度输出：用英文写一段 5-8 句自我介绍</td><td class="time">45 分钟</td></tr>
+      <tr><td class="day">周日</td><td>🏁 月度复盘：水平评估 + 下月计划调整</td><td class="time">30 分钟</td></tr>
+    </tbody>
+  </table>
+  <p class="daily-note">+ 每日 15 分钟碎片时间词汇复习</p>
+  <div class="week-milestone">
+    <strong>✓ 本月里程碑：</strong>词汇总量 100+ · 能读懂简单 AI 短文 · 能识别 5 条连读规律 · 能用英文写 5-8 句自我介绍
+  </div>
+</div>
+
+<h2>三、长期计划（第 2-6 个月）</h2>
+
+<div class="phase">
+  <div class="phase-label">Phase 1 · 打地基</div>
+  <div class="phase-title">Month 1-2：让英语进入日常</div>
+  <p>完成 5 大核心时态（现在 / 过去 / 进行 / 完成 / 将来）；词汇累积 200-300；能读懂 300 词 AI 短文 70%；BBC 精听常态化。</p>
+  <ul>
+    <li><strong>月末标志：</strong>写一段 8 句的英文自我介绍，语法错误 ≤ 3 处</li>
+    <li><strong>Month 2 新增：</strong>TED-Ed 常态化，开始模仿工作邮件</li>
+  </ul>
+</div>
+
+<div class="phase">
+  <div class="phase-label">Phase 2 · 上强度</div>
+  <div class="phase-title">Month 3-4：英语进入工作流</div>
+  <p>定语从句 / 宾语从句 / 被动语态 / 非谓语动词 —— 读论文必需的语法全部拿下。每周读 1 篇真实论文的摘要 + 引言。口语启动：每日 1 个工作场景对话。</p>
+  <ul>
+    <li><strong>月末标志：</strong>能独立读懂 AI 论文 Abstract + Introduction；能写结构清晰的英文工作邮件（100 词）</li>
+    <li><strong>水平：</strong>达到 CEFR B1</li>
+  </ul>
+</div>
+
+<div class="phase">
+  <div class="phase-label">Phase 3 · 分叉选择</div>
+  <div class="phase-title">Month 5-6：按申校节奏决策下一步</div>
+  <ul>
+    <li><strong>路径 ①（申校延后 1 年）：</strong>继续强化工作英语，参与英文技术社区（Reddit / HN / X）</li>
+    <li><strong>路径 ②（6 个月内考试）：</strong>启动雅思备考，4 个 section 逐个打，保守目标 5.5，冲刺 6.5</li>
+  </ul>
+</div>
+
+<h2>四、材料库</h2>
+
+<h3>阅读材料</h3>
+<div class="materials"><span class="tag green">入门</span><div>BBC 6 Minute English 文稿 · News in Levels · VOA Learning English 文稿</div></div>
+<div class="materials"><span class="tag yellow">核心</span><div>Anthropic 博客 · OpenAI 博客 · Hugging Face 博客 · Simon Willison 博客 · GitHub Changelog</div></div>
+<div class="materials"><span class="tag red">挑战</span><div>Arxiv 论文摘要 · Papers with Code 总结（Month 3 起）</div></div>
+
+<h3>听力材料</h3>
+<div class="materials"><span class="tag green">入门</span><div>BBC 6 Minute English · VOA Learning English（通勤被动听）</div></div>
+<div class="materials"><span class="tag yellow">核心</span><div>BBC English at Work · TED-Ed（3-5 分钟 AI 主题）</div></div>
+<div class="materials"><span class="tag red">挑战</span><div>Lex Fridman / Dwarkesh Patel 访谈片段（Month 3 起）</div></div>
+
+<h2>五、每周自检清单（周日用）</h2>
+<ul class="check-list">
+  <li>本周完成了 3 次阅读吗？</li>
+  <li>本周完成了 2 次听力吗？</li>
+  <li>每天都做了词汇复习吗？</li>
+  <li>本周语法 session 完成了吗？</li>
+  <li>有"Aha 时刻"吗？（听懂以前听不懂的 / 读懂以前读不懂的）</li>
+  <li>有"太难想放弃"的信号吗？</li>
+  <li>下周计划需要微调吗？</li>
+</ul>
+
+<h2>六、核心原则速记</h2>
+
+<div class="principle"><strong>① 精读 + 泛读并行：</strong>精读练能力，泛读练耐力</div>
+<div class="principle"><strong>② 主动听 + 被动听并行：</strong>主动听练耳朵，被动听去抗拒</div>
+<div class="principle"><strong>③ 只记见过的词：</strong>不碰 GRE / 四六级词表</div>
+<div class="principle"><strong>④ 影子跟读：</strong>嘴模仿过的声音，耳朵才能听见</div>
+<div class="principle"><strong>⑤ i+1 原则：</strong>材料难度 = 现水平 + 1 级，不是 + 3 级</div>
+<div class="principle"><strong>⑥ 60% 就是胜利：</strong>不求听懂 100%，剩下 40% 靠精讲补</div>
+<div class="principle"><strong>⑦ 不看中文字幕：</strong>英文字幕可以，中文字幕是毒药</div>
+
+<footer>Bob's English Learning Plan · Crafted with Claude · 2026-04-19</footer>
+
+</body>
+</html>
