@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>that 定语从句 | 语法精讲</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;color:#1a1a1a;background:#fafaf9;line-height:1.8;max-width:680px;margin:0 auto;padding:40px 24px 80px}
+a{color:#2a7c6f;text-decoration:none}
+a:hover{text-decoration:underline}
+.back{font-size:13px;color:#6b6b68;margin-bottom:24px;display:inline-block}
+
+h1{font-size:28px;font-weight:700;margin-bottom:4px;letter-spacing:-0.02em}
+.subtitle{color:#6b6b68;font-size:14px;margin-bottom:32px}
+.tag{display:inline-block;padding:3px 10px;background:#e1f5ee;color:#085041;border-radius:12px;font-size:12px;font-weight:600;margin-bottom:20px}
+
+h2{font-size:20px;font-weight:600;margin:36px 0 14px;padding-bottom:8px;border-bottom:2px solid #e5e5e3}
+h3{font-size:16px;font-weight:600;margin:20px 0 8px;color:#2a7c6f}
+
+.card{background:#fff;border:1px solid #e5e5e3;border-radius:12px;padding:20px;margin-bottom:16px}
+.card.highlight{border-left:4px solid #2a7c6f;background:#f0faf5}
+.card.formula{border-left:4px solid #534ab7;background:#f5f4fe}
+.card.wrong{border-left:4px solid #d94848;background:#fef5f5}
+.card.tip{border-left:4px solid #e6a817;background:#fefbf0}
+
+.formula-text{font-size:18px;font-weight:700;color:#534ab7;text-align:center;padding:8px 0;letter-spacing:0.02em}
+
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:14px}
+th{background:#f5f4f1;text-align:left;padding:10px 12px;font-weight:600;font-size:13px;color:#6b6b68;border-bottom:2px solid #e5e5e3}
+td{padding:10px 12px;border-bottom:1px solid #f0efec}
+tr:hover td{background:#fafaf9}
+
+.en{color:#2a7c6f;font-weight:500}
+.zh{color:#6b6b68;font-size:13px}
+.that{background:#eeedfe;padding:1px 6px;border-radius:4px;color:#534ab7;font-weight:600}
+.noun{background:#e1f5ee;padding:1px 6px;border-radius:4px;color:#085041;font-weight:500}
+.clause{background:#faeeda;padding:1px 6px;border-radius:4px;color:#854f0b}
+
+/* Quiz */
+.quiz{background:#fff;border:1px solid #e5e5e3;border-radius:12px;padding:20px;margin:16px 0}
+.q-label{font-size:12px;color:#534ab7;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px}
+.q-text{font-size:15px;font-weight:500;margin-bottom:14px}
+.options{display:flex;flex-direction:column;gap:8px}
+.option{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border:1px solid #e5e5e3;border-radius:8px;cursor:pointer;transition:all 0.2s;font-size:14px;user-select:none}
+.option:hover:not(.disabled){background:#f5f4f1;border-color:#c5c4c0}
+.option.correct{background:#e1f5ee;border-color:#1d9e75;cursor:default}
+.option.wrong{background:#fcebeb;border-color:#d94848;cursor:default}
+.option.disabled{cursor:default;opacity:0.6}
+.option.disabled.show-correct{opacity:1;background:#e1f5ee;border-color:#1d9e75}
+.opt-letter{width:24px;height:24px;border-radius:50%;background:#f5f4f1;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:#6b6b68;flex-shrink:0;border:1px solid #e5e5e3}
+.option.correct .opt-letter{background:#1d9e75;color:#fff;border-color:#1d9e75}
+.option.wrong .opt-letter{background:#d94848;color:#fff;border-color:#d94848}
+.feedback{margin-top:12px;padding:12px 16px;border-radius:8px;font-size:13px;line-height:1.7;display:none}
+.feedback.correct{background:#e1f5ee;border-left:3px solid #1d9e75;color:#085041}
+.feedback.wrong{background:#fcebeb;border-left:3px solid #d94848;color:#6e1a1a}
+.feedback.show{display:block;animation:fadeIn 0.3s ease}
+
+.progress-bar{background:#e5e5e3;border-radius:20px;height:6px;margin:24px 0;overflow:hidden}
+.progress-fill{background:linear-gradient(90deg,#2a7c6f,#3db89e);height:100%;border-radius:20px;width:0%;transition:width 0.5s ease}
+
+.score-card{background:linear-gradient(135deg,#2a7c6f,#3db89e);color:#fff;border-radius:16px;padding:28px;text-align:center;display:none;margin-top:24px}
+.score-card.show{display:block;animation:fadeIn 0.5s}
+.score-num{font-size:42px;font-weight:700;margin:8px 0}
+.score-msg{font-size:14px;opacity:0.9;margin-top:8px;line-height:1.6}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:600px){body{padding:24px 16px 60px}h1{font-size:22px}.formula-text{font-size:16px}}
+</style>
+</head>
+<body>
+
+<a href="../../index.html" class="back">&larr; 返回知识库</a>
+
+<span class="tag">语法 Grammar</span>
+<h1>that 定语从句</h1>
+<p class="subtitle">用一个从句给名词加描述 —— 10 分钟搞懂</p>
+
+<div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+
+<!-- ===== Section 1: 直觉 ===== -->
+<h2>1. 先找感觉</h2>
+
+<p>你已经学过这句话：</p>
+
+<div class="card highlight">
+  <p class="en" style="font-size:16px">A good <span class="noun">example</span> <span class="that">that</span> <span class="clause">comes to mind</span> is...</p>
+  <p class="zh" style="margin-top:6px">我想到的一个好例子是……</p>
+</div>
+
+<p>这里的 <span class="that">that</span> 不是"那个"的意思！它是一个<strong>连接词</strong>，把两个信息粘在一起：</p>
+
+<table>
+  <tr><th>没有 that（两句话）</th><th>用 that（一句话）</th></tr>
+  <tr>
+    <td>I have an example. It comes to mind.</td>
+    <td>I have an example <span class="that">that</span> comes to mind.</td>
+  </tr>
+</table>
+
+<!-- ===== Section 2: 公式 ===== -->
+<h2>2. 核心公式</h2>
+
+<div class="card formula">
+  <div class="formula-text"><span class="noun">名词</span> + <span class="that">that</span> + <span class="clause">正常语序的句子</span></div>
+</div>
+
+<p><span class="that">that</span> 后面的部分叫<strong>定语从句</strong>，修饰前面的名词，相当于中文的"……<strong>的</strong>"。</p>
+
+<!-- ===== Section 3: 例句拆解 ===== -->
+<h2>3. 例句拆解</h2>
+
+<div class="card">
+  <h3>例 1 — 来自 EP02</h3>
+  <p class="en">Your <span class="noun">qualifications</span> <span class="that">that</span> <span class="clause">look impressive</span></p>
+  <p class="zh">你的学历 → 什么样的？→ 看起来很厉害的</p>
+</div>
+
+<div class="card">
+  <h3>例 2 — 工作场景</h3>
+  <p class="en">The <span class="noun">company</span> <span class="that">that</span> <span class="clause">I work for</span> makes AI products.</p>
+  <p class="zh">公司 → 哪个？→ 我工作的那个 → 做 AI 产品</p>
+</div>
+
+<div class="card">
+  <h3>例 3 — 日常场景</h3>
+  <p class="en">The <span class="noun">person</span> <span class="that">that</span> <span class="clause">called you</span> was your manager.</p>
+  <p class="zh">那个人 → 哪个人？→ 给你打电话的 → 是你经理</p>
+</div>
+
+<div class="card">
+  <h3>例 4 — AI 场景（你最熟的）</h3>
+  <p class="en">The <span class="noun">agent</span> <span class="that">that</span> <span class="clause">handles customer complaints</span> needs an update.</p>
+  <p class="zh">agent → 哪个？→ 处理客户投诉的那个 → 需要更新</p>
+</div>
+
+<!-- ===== Section 4: 三条规则 ===== -->
+<h2>4. 三条铁律</h2>
+
+<div class="card highlight">
+  <table>
+    <tr><th>#</th><th>规则</th><th>例子</th></tr>
+    <tr><td>1</td><td><span class="that">that</span> 紧跟在名词后面</td><td>a story <span class="that">that</span>... ✓</td></tr>
+    <tr><td>2</td><td><span class="that">that</span> 后面是<strong>正常语序</strong>（主+动）</td><td>that <span class="clause">impressed Paul</span> ✓</td></tr>
+    <tr><td>3</td><td>整个 that 从句修饰前面的名词</td><td>什么样的 story？→ 打动 Paul 的</td></tr>
+  </table>
+</div>
+
+<!-- ===== Section 5: 常见错误 ===== -->
+<h2>5. 别踩这些坑</h2>
+
+<div class="card wrong">
+  <h3>❌ that 位置放错</h3>
+  <p><del>That I have a colleague speaks English well.</del></p>
+  <p>✅ I have a <span class="noun">colleague</span> <span class="that">that</span> speaks English well.</p>
+  <p class="zh">that 必须紧跟在它修饰的名词后面，不能跑到句首</p>
+</div>
+
+<div class="card wrong">
+  <h3>❌ that 后面语序倒了</h3>
+  <p><del>a colleague that English speaks very well</del></p>
+  <p>✅ a colleague <span class="that">that</span> <span class="clause">speaks English</span> very well</p>
+  <p class="zh">that 后面保持正常语序：主语 + 动词 + 宾语</p>
+</div>
+
+<div class="card wrong">
+  <h3>❌ 把 that 当成"那个"</h3>
+  <p><del>一个好例子，那个浮现在脑海里</del>（读起来像两句话）</p>
+  <p>✅ 一个浮现在脑海里<strong>的</strong>好例子（that = "……的"）</p>
+</div>
+
+<!-- ===== Section 6: 小贴士 ===== -->
+<h2>6. 进阶小知识</h2>
+
+<div class="card tip">
+  <h3>💡 that 可以省略吗？</h3>
+  <p>当 that 在从句中做<strong>宾语</strong>时，可以省略：</p>
+  <p class="en">The movie <del>that</del> I watched was great. ✓</p>
+  <p class="en">The movie <span class="that">that</span> I watched was great. ✓</p>
+  <p style="margin-top:8px">当 that 在从句中做<strong>主语</strong>时，<strong>不能省略</strong>：</p>
+  <p class="en">The person <span class="that">that</span> called you... ✓</p>
+  <p class="en"><del>The person called you...</del> ✗（意思完全变了！）</p>
+  <p class="zh" style="margin-top:8px">现在不用记这条规则，等你读多了自然会有感觉。</p>
+</div>
+
+<!-- ===== Section 7: 练习 ===== -->
+<h2>7. 动手练习</h2>
+
+<div class="quiz" id="q1" data-answer="a">
+  <div class="q-label">练习 1 · 合并句子</div>
+  <div class="q-text">把 "I have a colleague" 和 "He speaks English very well" 用 that 合成一句：</div>
+  <div class="options">
+    <div class="option" data-val="a" onclick="pick(this)"><span class="opt-letter">A</span>I have a colleague that speaks English very well.</div>
+    <div class="option" data-val="b" onclick="pick(this)"><span class="opt-letter">B</span>I have a colleague that English speaks very well.</div>
+    <div class="option" data-val="c" onclick="pick(this)"><span class="opt-letter">C</span>That I have a colleague speaks English very well.</div>
+  </div>
+  <div class="feedback correct">对！colleague + that + 正常语序（speaks English very well）。that 紧跟在 colleague 后面。</div>
+  <div class="feedback wrong">记住公式：名词 + that + 正常语序。that 紧跟在 colleague 后面，后面跟 speaks English very well。答案是 A。</div>
+</div>
+
+<div class="quiz" id="q2" data-answer="a">
+  <div class="q-label">练习 2 · 合并句子</div>
+  <div class="q-text">把 "Anna told a story" 和 "The story impressed Paul" 合成一句：</div>
+  <div class="options">
+    <div class="option" data-val="a" onclick="pick(this)"><span class="opt-letter">A</span>Anna told a story that impressed Paul.</div>
+    <div class="option" data-val="b" onclick="pick(this)"><span class="opt-letter">B</span>Anna told that a story impressed Paul.</div>
+    <div class="option" data-val="c" onclick="pick(this)"><span class="opt-letter">C</span>Anna that told a story impressed Paul.</div>
+  </div>
+  <div class="feedback correct">对！story + that + impressed Paul。that 从句修饰 story：什么样的故事？→ 打动 Paul 的。</div>
+  <div class="feedback wrong">that 要紧跟被修饰的名词 story。Anna told a story <strong>that impressed Paul</strong>。答案是 A。</div>
+</div>
+
+<div class="quiz" id="q3" data-answer="b">
+  <div class="q-label">练习 3 · 翻译选择</div>
+  <div class="q-text">"处理客户投诉的那个 AI agent" 用英文怎么说？</div>
+  <div class="options">
+    <div class="option" data-val="a" onclick="pick(this)"><span class="opt-letter">A</span>the AI agent handles customer complaints that</div>
+    <div class="option" data-val="b" onclick="pick(this)"><span class="opt-letter">B</span>the AI agent that handles customer complaints</div>
+    <div class="option" data-val="c" onclick="pick(this)"><span class="opt-letter">C</span>that the AI agent handles customer complaints</div>
+  </div>
+  <div class="feedback correct">对！名词 agent + that + 正常语序 handles customer complaints。中文"……的"对应英文的 that 从句。</div>
+  <div class="feedback wrong">中文说"处理投诉<strong>的</strong> agent"，英文要把 that 放在 agent 后面：the AI agent <strong>that handles customer complaints</strong>。答案是 B。</div>
+</div>
+
+<div class="quiz" id="q4" data-answer="c">
+  <div class="q-label">练习 4 · 找错</div>
+  <div class="q-text">下面哪句话有语法错误？</div>
+  <div class="options">
+    <div class="option" data-val="a" onclick="pick(this)"><span class="opt-letter">A</span>The budget that we managed was very small.</div>
+    <div class="option" data-val="b" onclick="pick(this)"><span class="opt-letter">B</span>I need a tool that works offline.</div>
+    <div class="option" data-val="c" onclick="pick(this)"><span class="opt-letter">C</span>The email that sent to me was important.</div>
+  </div>
+  <div class="feedback correct">对！C 有错。"sent to me" 缺少主语——谁 sent？应该是 "The email that <strong>was sent</strong> to me"（被动语态）或 "The email that <strong>he sent</strong> to me"。that 从句里必须有完整的主语+动词。</div>
+  <div class="feedback wrong">看 C：The email that sent to me —— sent 的主语是谁？没有！应该是 "that <strong>was sent</strong> to me"（被发送给我的）。that 从句里需要完整的主+动结构。</div>
+</div>
+
+<div class="quiz" id="q5" data-answer="a">
+  <div class="q-label">练习 5 · 造句理解</div>
+  <div class="q-text">Bob 写了一句：<em>"The system that I built handles 1000 requests per second."</em><br><br>这句话里 that 从句修饰的是哪个词？</div>
+  <div class="options">
+    <div class="option" data-val="a" onclick="pick(this)"><span class="opt-letter">A</span>system（哪个 system？→ 我搭建的那个）</div>
+    <div class="option" data-val="b" onclick="pick(this)"><span class="opt-letter">B</span>requests（哪些 requests？→ 我搭建的那些）</div>
+    <div class="option" data-val="c" onclick="pick(this)"><span class="opt-letter">C</span>Bob（哪个 Bob？→ 我搭建的那个）</div>
+  </div>
+  <div class="feedback correct">对！that 紧跟在 system 后面，所以修饰 system。"我搭建的那个系统，每秒处理 1000 个请求。"</div>
+  <div class="feedback wrong">记住：that 修饰它<strong>前面紧挨着的名词</strong>。that 紧跟 system，所以修饰的是 system。答案是 A。</div>
+</div>
+
+<div class="score-card" id="score-card">
+  <div>你的得分</div>
+  <div class="score-num" id="score-num">0 / 5</div>
+  <div class="score-msg" id="score-msg"></div>
+</div>
+
+<script>
+let answered = 0, correct = 0, total = 5;
+
+function pick(el) {
+  const q = el.closest('.quiz');
+  if (q.dataset.done) return;
+  q.dataset.done = '1';
+  const ans = q.dataset.answer, val = el.dataset.val, ok = val === ans;
+  q.querySelectorAll('.option').forEach(o => {
+    if (o === el) o.classList.add(ok ? 'correct' : 'wrong');
+    else { o.classList.add('disabled'); if (!ok && o.dataset.val === ans) o.classList.add('show-correct'); }
+  });
+  const fbs = q.querySelectorAll('.feedback');
+  fbs.forEach(f => { f.style.display = 'none'; f.classList.remove('show'); });
+  const fb = q.querySelector('.feedback.' + (ok ? 'correct' : 'wrong'));
+  if (fb) { fb.style.display = 'block'; fb.classList.add('show'); }
+  answered++;
+  if (ok) correct++;
+  document.getElementById('progress-fill').style.width = (answered / total * 100) + '%';
+  if (answered >= total) {
+    const card = document.getElementById('score-card');
+    document.getElementById('score-num').textContent = correct + ' / ' + total;
+    let msg = correct >= 5 ? 'that 从句完全掌握了！可以在阅读中自信地识别它了。'
+            : correct >= 3 ? '基本掌握了，再多读几个例句就能巩固。'
+            : '别急，回到上面的例句再看看规律，然后重做一遍。';
+    document.getElementById('score-msg').textContent = msg;
+    card.classList.add('show');
+    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+}
+</script>
+
+</body>
+</html>

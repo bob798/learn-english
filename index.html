@@ -1,0 +1,2110 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bob 的英语学习 · Learn English</title>
+<meta name="description" content="一个 AI 工程师从 A2 出发的英语成长记录 — 方法论、素材、词汇、进度全在这里">
+<style>
+/* ─── Design tokens ─────────────────────────────────────────── */
+:root {
+  --jade:       #2a7c6f;
+  --jade-light: #3d9e8f;
+  --jade-dim:   #1e5c52;
+  --jade-pale:  #e6f3f1;
+  --jade-mist:  #f0f9f7;
+  --amber:      #d97706;
+  --amber-pale: #fef3c7;
+  --coral:      #e05252;
+  --coral-pale: #fce9e9;
+  --ink:        #1a1917;
+  --ink-2:      #3d3c3a;
+  --ink-3:      #6b6a67;
+  --ink-4:      #9b9a97;
+  --paper:      #faf9f7;
+  --white:      #ffffff;
+  --border:     #e5e3de;
+  --border-2:   #d0cdc8;
+  --shadow-sm:  0 1px 3px rgba(0,0,0,.07), 0 1px 2px rgba(0,0,0,.05);
+  --shadow-md:  0 4px 12px rgba(0,0,0,.08), 0 2px 4px rgba(0,0,0,.06);
+  --shadow-lg:  0 8px 28px rgba(0,0,0,.10), 0 4px 8px rgba(0,0,0,.06);
+  --radius-sm:  8px;
+  --radius-md:  12px;
+  --radius-lg:  18px;
+  --radius-xl:  24px;
+  --font-zh:    "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+  --font-en:    "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --transition: 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-theme="dark"] {
+  --ink:        #f0ede8;
+  --ink-2:      #d0cdc8;
+  --ink-3:      #9b9a97;
+  --ink-4:      #6b6a67;
+  --paper:      #18181b;
+  --white:      #242428;
+  --border:     #323230;
+  --border-2:   #3f3f3c;
+  --jade:       #3fb39e;
+  --jade-light: #52ccb6;
+  --jade-dim:   #2a8070;
+  --jade-pale:  #1a3330;
+  --jade-mist:  #162928;
+  --amber-pale: #2d2207;
+  --coral-pale: #2d1515;
+  --shadow-sm:  0 1px 3px rgba(0,0,0,.3);
+  --shadow-md:  0 4px 12px rgba(0,0,0,.35);
+  --shadow-lg:  0 8px 28px rgba(0,0,0,.4);
+}
+
+/* ─── Reset & base ──────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+  font-family: var(--font-zh);
+  background: var(--paper);
+  color: var(--ink);
+  line-height: 1.7;
+  min-height: 100vh;
+  transition: background var(--transition), color var(--transition);
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; text-decoration: none; }
+
+img { display: block; max-width: 100%; }
+
+/* ─── Scroll reveal ─────────────────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: none;
+}
+.reveal-delay-1 { transition-delay: 0.08s; }
+.reveal-delay-2 { transition-delay: 0.16s; }
+.reveal-delay-3 { transition-delay: 0.24s; }
+.reveal-delay-4 { transition-delay: 0.32s; }
+
+/* ─── Layout helpers ────────────────────────────────────────── */
+.container {
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+section { padding: 80px 0; }
+section:first-of-type { padding-top: 0; }
+
+.section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--jade);
+  margin-bottom: 14px;
+}
+
+.section-label::before {
+  content: '';
+  display: block;
+  width: 18px;
+  height: 2px;
+  background: var(--jade);
+  border-radius: 2px;
+}
+
+.section-title {
+  font-size: clamp(26px, 4vw, 36px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  margin-bottom: 10px;
+  color: var(--ink);
+}
+
+.section-sub {
+  color: var(--ink-3);
+  font-size: 15px;
+  margin-bottom: 48px;
+  max-width: 560px;
+}
+
+/* ─── Nav ───────────────────────────────────────────────────── */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(250, 249, 247, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  transition: background var(--transition);
+}
+
+[data-theme="dark"] nav {
+  background: rgba(24, 24, 27, 0.85);
+}
+
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  gap: 20px;
+}
+
+.nav-logo {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--jade);
+  flex-shrink: 0;
+  letter-spacing: -0.01em;
+}
+
+.nav-logo span {
+  color: var(--ink-3);
+  font-weight: 400;
+}
+
+.nav-links {
+  display: flex;
+  gap: 4px;
+  list-style: none;
+  overflow-x: auto;
+  scrollbar-width: none;
+  flex: 1;
+  justify-content: center;
+}
+
+.nav-links::-webkit-scrollbar { display: none; }
+
+.nav-links a {
+  display: inline-block;
+  padding: 6px 12px;
+  font-size: 13px;
+  color: var(--ink-3);
+  border-radius: 20px;
+  transition: background var(--transition), color var(--transition);
+  white-space: nowrap;
+  font-weight: 500;
+}
+
+.nav-links a:hover {
+  background: var(--jade-pale);
+  color: var(--jade);
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.btn-theme {
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: var(--white);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  transition: border-color var(--transition), transform 0.2s ease;
+  color: var(--ink-3);
+}
+
+.btn-theme:hover { border-color: var(--jade); transform: scale(1.05); }
+.btn-theme .icon-sun { display: none; }
+.btn-theme .icon-moon { display: block; }
+[data-theme="dark"] .btn-theme .icon-sun { display: block; }
+[data-theme="dark"] .btn-theme .icon-moon { display: none; }
+
+/* ─── Hero ──────────────────────────────────────────────────── */
+#hero {
+  padding: 72px 0 64px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 60% at 80% 20%, rgba(42, 124, 111, 0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 50% at 10% 80%, rgba(217, 119, 6, 0.04) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 680px;
+}
+
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--jade);
+  background: var(--jade-pale);
+  padding: 5px 14px;
+  border-radius: 20px;
+  margin-bottom: 24px;
+  border: 1px solid rgba(42, 124, 111, 0.2);
+}
+
+.hero-badge {
+  width: 7px; height: 7px;
+  background: var(--jade);
+  border-radius: 50%;
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(0.8); }
+}
+
+.hero-title {
+  font-size: clamp(38px, 7vw, 68px);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.06;
+  margin-bottom: 20px;
+  color: var(--ink);
+}
+
+.hero-title .en {
+  color: var(--jade);
+  display: block;
+}
+
+.hero-title .zh {
+  font-size: clamp(20px, 3.5vw, 32px);
+  font-weight: 600;
+  color: var(--ink-3);
+  letter-spacing: -0.01em;
+  display: block;
+  margin-top: 6px;
+}
+
+.hero-desc {
+  font-size: 16px;
+  color: var(--ink-3);
+  line-height: 1.75;
+  margin-bottom: 36px;
+  max-width: 520px;
+}
+
+.hero-cta-group {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 56px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 22px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  transition: all var(--transition);
+  cursor: pointer;
+  border: none;
+  font-family: var(--font-zh);
+  text-decoration: none;
+}
+
+.btn-primary {
+  background: var(--jade);
+  color: white;
+  box-shadow: 0 4px 14px rgba(42, 124, 111, 0.35);
+}
+
+.btn-primary:hover {
+  background: var(--jade-dim);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(42, 124, 111, 0.45);
+}
+
+.btn-secondary {
+  background: var(--white);
+  color: var(--ink-2);
+  border: 1px solid var(--border);
+}
+
+.btn-secondary:hover {
+  border-color: var(--jade);
+  color: var(--jade);
+  transform: translateY(-1px);
+}
+
+/* ─── Stats bar ─────────────────────────────────────────────── */
+.stats-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.stat-item {
+  background: var(--white);
+  padding: 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  transition: background var(--transition);
+}
+
+.stat-item:hover { background: var(--jade-mist); }
+
+.stat-value {
+  font-size: clamp(22px, 3vw, 30px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--jade);
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: var(--ink-4);
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+/* ─── Track cards ───────────────────────────────────────────── */
+.tracks-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.track-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition: all var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+.track-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+}
+
+.track-card.reading::before  { background: linear-gradient(90deg, #2a7c6f, #3fb39e); }
+.track-card.listening::before { background: linear-gradient(90deg, #2563eb, #60a5fa); }
+.track-card.vocab::before     { background: linear-gradient(90deg, #7c3aed, #a78bfa); }
+.track-card.grammar::before   { background: linear-gradient(90deg, #d97706, #fbbf24); }
+
+.track-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--border-2);
+}
+
+.track-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.track-icon {
+  font-size: 28px;
+  line-height: 1;
+}
+
+.track-freq-badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 20px;
+  background: var(--paper);
+  color: var(--ink-4);
+  border: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.track-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+
+.track-name-en {
+  font-size: 12px;
+  color: var(--ink-4);
+  font-weight: 500;
+  margin-top: 2px;
+}
+
+.track-materials {
+  font-size: 13px;
+  color: var(--ink-3);
+  line-height: 1.65;
+}
+
+.track-progress {
+  margin-top: auto;
+}
+
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--ink-4);
+  margin-bottom: 6px;
+}
+
+.progress-bar {
+  height: 4px;
+  background: var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1) 0.3s;
+}
+
+.track-card.reading  .progress-fill { background: linear-gradient(90deg, #2a7c6f, #3fb39e); }
+.track-card.listening .progress-fill { background: linear-gradient(90deg, #2563eb, #60a5fa); }
+.track-card.vocab     .progress-fill { background: linear-gradient(90deg, #7c3aed, #a78bfa); }
+.track-card.grammar   .progress-fill { background: linear-gradient(90deg, #d97706, #fbbf24); }
+
+/* ─── Section link ──────────────────────────────────────────── */
+.section-link-row {
+  margin-top: 32px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.section-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: var(--jade);
+  font-weight: 600;
+  padding: 8px 16px;
+  border: 1px solid rgba(42, 124, 111, 0.3);
+  border-radius: var(--radius-md);
+  background: var(--jade-mist);
+  transition: all var(--transition);
+}
+
+.section-link:hover {
+  background: var(--jade-pale);
+  border-color: var(--jade);
+  transform: translateX(3px);
+}
+
+.section-link svg { flex-shrink: 0; }
+
+/* ─── Methods ───────────────────────────────────────────────── */
+.methods-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.method-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 26px;
+  transition: all var(--transition);
+}
+
+.method-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.method-num {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--jade);
+  margin-bottom: 12px;
+  opacity: 0.7;
+}
+
+.method-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 4px;
+  letter-spacing: -0.01em;
+}
+
+.method-subtitle {
+  font-size: 13px;
+  color: var(--ink-4);
+  margin-bottom: 16px;
+}
+
+.method-steps {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.method-steps li {
+  font-size: 13px;
+  color: var(--ink-3);
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  line-height: 1.5;
+}
+
+.method-steps li::before {
+  content: attr(data-step);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  background: var(--jade-pale);
+  color: var(--jade);
+  border-radius: 50%;
+  font-size: 10px;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.method-steps li.highlight {
+  color: var(--jade-dim);
+  font-weight: 600;
+}
+
+.method-steps li.highlight::before {
+  background: var(--jade);
+  color: white;
+}
+
+.method-tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+}
+
+.method-tag {
+  font-size: 12px;
+  padding: 3px 10px;
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  color: var(--ink-3);
+}
+
+.method-tag.key {
+  background: var(--jade-pale);
+  border-color: rgba(42, 124, 111, 0.25);
+  color: var(--jade-dim);
+  font-weight: 600;
+}
+
+/* ─── Knowledge base ────────────────────────────────────────── */
+.kb-tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 28px;
+  padding: 4px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  width: fit-content;
+}
+
+.kb-tab {
+  padding: 8px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-3);
+  border-radius: calc(var(--radius-md) - 2px);
+  cursor: pointer;
+  transition: all var(--transition);
+  border: none;
+  background: none;
+  font-family: var(--font-zh);
+  white-space: nowrap;
+}
+
+.kb-tab.active {
+  background: var(--jade);
+  color: white;
+  box-shadow: 0 2px 8px rgba(42, 124, 111, 0.3);
+}
+
+.kb-tab:not(.active):hover {
+  background: var(--jade-mist);
+  color: var(--jade);
+}
+
+.kb-panel { display: none; }
+.kb-panel.active { display: block; }
+
+/* Grammar items */
+.grammar-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.grammar-item {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 18px 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  transition: all var(--transition);
+}
+
+.grammar-item:hover {
+  border-color: var(--jade);
+  background: var(--jade-mist);
+}
+
+.grammar-check {
+  width: 22px;
+  height: 22px;
+  background: #dcfce7;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+[data-theme="dark"] .grammar-check {
+  background: rgba(34, 197, 94, 0.15);
+}
+
+.grammar-check svg { color: #16a34a; }
+
+.grammar-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 3px;
+}
+
+.grammar-tip {
+  font-size: 12px;
+  color: var(--ink-4);
+  line-height: 1.5;
+}
+
+/* Vocab items */
+.vocab-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 10px;
+}
+
+.vocab-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  transition: all var(--transition);
+}
+
+.vocab-card:hover {
+  border-color: var(--jade);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+.vocab-word {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink);
+  font-family: var(--font-en);
+  letter-spacing: -0.01em;
+  margin-bottom: 2px;
+}
+
+.vocab-phonetic {
+  font-size: 12px;
+  color: var(--jade);
+  font-family: var(--font-en);
+  margin-bottom: 6px;
+}
+
+.vocab-meaning {
+  font-size: 13px;
+  color: var(--ink-3);
+  border-top: 1px solid var(--border);
+  padding-top: 8px;
+  line-height: 1.5;
+}
+
+/* Linking rules */
+.link-rules-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.link-rule {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  transition: all var(--transition);
+}
+
+.link-rule:hover {
+  border-color: var(--jade);
+  background: var(--jade-mist);
+}
+
+.rule-num {
+  width: 32px;
+  height: 32px;
+  background: var(--jade);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 13px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.rule-arrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+  font-family: var(--font-en);
+  flex: 1;
+}
+
+.rule-before {
+  font-weight: 600;
+  color: var(--ink-2);
+}
+
+.rule-to {
+  font-size: 12px;
+  color: var(--ink-4);
+}
+
+.rule-after {
+  font-weight: 700;
+  color: var(--jade);
+  font-size: 17px;
+}
+
+.rule-desc {
+  font-size: 13px;
+  color: var(--ink-4);
+  flex-shrink: 0;
+  text-align: right;
+}
+
+/* ─── Materials ─────────────────────────────────────────────── */
+.materials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.material-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: all var(--transition);
+  display: flex;
+  flex-direction: column;
+}
+
+.material-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--border-2);
+}
+
+.material-header {
+  padding: 20px 22px 16px;
+  background: var(--jade-mist);
+  border-bottom: 1px solid var(--jade-pale);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.material-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 20px;
+  flex-shrink: 0;
+}
+
+.status-done {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.status-wip {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.status-todo {
+  background: var(--border);
+  color: var(--ink-4);
+}
+
+[data-theme="dark"] .status-done { background: rgba(34, 197, 94, 0.15); color: #4ade80; }
+[data-theme="dark"] .status-wip  { background: rgba(217, 119, 6, 0.15);  color: #fbbf24; }
+
+.material-tag {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--jade);
+}
+
+.material-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+}
+
+.material-body {
+  padding: 16px 22px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.material-desc {
+  font-size: 13px;
+  color: var(--ink-3);
+  line-height: 1.65;
+}
+
+.material-scenes {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.scene-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--ink-3);
+}
+
+.scene-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.scene-dot.done   { background: #22c55e; }
+.scene-dot.wip    { background: var(--amber); }
+.scene-dot.todo   { background: var(--border-2); }
+
+.material-links {
+  padding: 14px 22px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.mat-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--jade);
+  padding: 6px 12px;
+  background: var(--jade-mist);
+  border: 1px solid rgba(42, 124, 111, 0.2);
+  border-radius: var(--radius-sm);
+  transition: all var(--transition);
+}
+
+.mat-link:hover {
+  background: var(--jade-pale);
+  border-color: var(--jade);
+}
+
+.mat-link.disabled {
+  color: var(--ink-4);
+  background: var(--paper);
+  border-color: var(--border);
+  cursor: default;
+  pointer-events: none;
+}
+
+/* ─── Timeline / Log ────────────────────────────────────────── */
+.timeline {
+  position: relative;
+  padding-left: 32px;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 10px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--jade), transparent);
+  border-radius: 2px;
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 32px;
+}
+
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -25px;
+  top: 6px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid var(--jade);
+  background: var(--white);
+  transition: background var(--transition);
+}
+
+.timeline-item.milestone::before {
+  background: var(--jade);
+  box-shadow: 0 0 0 3px var(--jade-pale);
+}
+
+.timeline-date {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ink-4);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 5px;
+}
+
+.timeline-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 5px;
+}
+
+.timeline-body {
+  font-size: 13px;
+  color: var(--ink-3);
+  line-height: 1.65;
+}
+
+.timeline-tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.t-tag {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: var(--jade-pale);
+  color: var(--jade-dim);
+  font-weight: 500;
+}
+
+.timeline-placeholder {
+  background: var(--paper);
+  border: 1px dashed var(--border-2);
+  border-radius: var(--radius-md);
+  padding: 18px 22px;
+  font-size: 13px;
+  color: var(--ink-4);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 32px;
+}
+
+/* ─── Footer ────────────────────────────────────────────────── */
+footer {
+  background: var(--white);
+  border-top: 1px solid var(--border);
+  padding: 40px 0;
+  margin-top: 0;
+}
+
+.footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.footer-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.footer-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--jade);
+  letter-spacing: -0.01em;
+}
+
+.footer-tagline {
+  font-size: 13px;
+  color: var(--ink-4);
+}
+
+.footer-links {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.footer-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 13px;
+  color: var(--ink-3);
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--paper);
+  transition: all var(--transition);
+}
+
+.footer-link:hover {
+  color: var(--jade);
+  border-color: var(--jade);
+  background: var(--jade-mist);
+}
+
+.footer-credit {
+  font-size: 12px;
+  color: var(--ink-4);
+  text-align: right;
+}
+
+.footer-credit a {
+  color: var(--jade);
+  font-weight: 500;
+}
+
+/* ─── Divider ───────────────────────────────────────────────── */
+.section-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 0;
+}
+
+/* ─── Responsive ────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  section { padding: 56px 0; }
+  .container { padding: 0 18px; }
+
+  .nav-links { display: none; }
+
+  .stats-bar {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .tracks-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .methods-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .grammar-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .link-rule {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .rule-desc {
+    text-align: left;
+  }
+
+  .hero-title { letter-spacing: -0.03em; }
+
+  .footer-inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .footer-credit { text-align: left; }
+
+  .kb-tabs {
+    overflow-x: auto;
+    width: 100%;
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-bar {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .hero-cta-group { flex-direction: column; }
+  .btn { justify-content: center; }
+
+  .vocab-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ─── Accent colors for bg sections ────────────────────────── */
+#learning-system {
+  background: var(--jade-mist);
+}
+
+#methodology {
+  background: var(--white);
+}
+
+#knowledge-base {
+  background: var(--paper);
+}
+
+#materials {
+  background: var(--white);
+}
+
+#log {
+  background: var(--jade-mist);
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ Navigation ═══════════════════════════════════════════ -->
+<nav>
+  <div class="container nav-inner">
+    <a href="#hero" class="nav-logo">Bob<span> · Learn English</span></a>
+    <ul class="nav-links">
+      <li><a href="#learning-system">学习体系</a></li>
+      <li><a href="#methodology">方法论</a></li>
+      <li><a href="#knowledge-base">知识库</a></li>
+      <li><a href="#materials">精讲素材</a></li>
+      <li><a href="#log">学习日志</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="btn-theme" id="themeToggle" aria-label="切换暗色模式" title="切换暗色/亮色模式">
+        <span class="icon-moon" aria-hidden="true">🌙</span>
+        <span class="icon-sun"  aria-hidden="true">☀️</span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══ Hero ══════════════════════════════════════════════════ -->
+<div id="hero">
+  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-eyebrow">
+        <span class="hero-badge"></span>
+        持续学习中 · A2 → 流利
+      </div>
+
+      <h1 class="hero-title">
+        <span class="en">Learn English</span>
+        <span class="zh">一个 AI 工程师的英语成长之路</span>
+      </h1>
+
+      <p class="hero-desc">
+        从零开始，用最笨也最有效的方式学英语。<br>
+        这里记录我的方法、词汇、素材和每一天的进步。<br>
+        <strong style="color: var(--jade)">也许你也需要这些。</strong>
+      </p>
+
+      <div class="hero-cta-group">
+        <a href="plan.html" class="btn btn-primary">
+          <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+          查看 6 个月计划
+        </a>
+        <a href="#methodology" class="btn btn-secondary">
+          <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg>
+          学习方法论
+        </a>
+      </div>
+
+      <!-- Stats bar -->
+      <div class="stats-bar" role="list" aria-label="学习数据统计">
+        <div class="stat-item" role="listitem">
+          <span class="stat-value" id="stat-days">3</span>
+          <span class="stat-label">学习天数</span>
+        </div>
+        <div class="stat-item" role="listitem">
+          <span class="stat-value">17</span>
+          <span class="stat-label">已掌握词汇</span>
+        </div>
+        <div class="stat-item" role="listitem">
+          <span class="stat-value">1</span>
+          <span class="stat-label">已精讲素材</span>
+        </div>
+        <div class="stat-item" role="listitem">
+          <span class="stat-value">A2</span>
+          <span class="stat-label">当前水平 CEFR</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ═══ Learning System ═══════════════════════════════════════ -->
+<section id="learning-system">
+  <div class="container">
+    <div class="reveal">
+      <p class="section-label">学习体系</p>
+      <h2 class="section-title">4 轨并行学习系统</h2>
+      <p class="section-sub">每条轨道独立推进，互相支撑。阅读是发动机，词汇是润滑油。</p>
+    </div>
+
+    <div class="tracks-grid">
+      <!-- Reading -->
+      <div class="track-card reading reveal reveal-delay-1">
+        <div class="track-header">
+          <span class="track-icon" aria-hidden="true">📖</span>
+          <span class="track-freq-badge">每周 3 次 · 30 min</span>
+        </div>
+        <div>
+          <div class="track-name">阅读</div>
+          <div class="track-name-en">Reading Track</div>
+        </div>
+        <p class="track-materials">
+          AI 博客（Anthropic / OpenAI / HuggingFace）· Simon Willison 博客<br>
+          精读 + 泛读并行；精读吃透一篇，泛读训练容忍模糊
+        </p>
+        <div class="track-progress">
+          <div class="progress-label">
+            <span>进度</span><span>Week 1</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width:0%" data-width="10%"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Listening -->
+      <div class="track-card listening reveal reveal-delay-2">
+        <div class="track-header">
+          <span class="track-icon" aria-hidden="true">🎧</span>
+          <span class="track-freq-badge">每周 2 次 · 30 min</span>
+        </div>
+        <div>
+          <div class="track-name">听力</div>
+          <div class="track-name-en">Listening Track</div>
+        </div>
+        <p class="track-materials">
+          BBC 6 Minute English · BBC English at Work<br>
+          6 步漏斗精听法 + 通勤被动输入（VOA）
+        </p>
+        <div class="track-progress">
+          <div class="progress-label">
+            <span>EP01 完成</span><span>Week 1</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width:0%" data-width="8%"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Vocab -->
+      <div class="track-card vocab reveal reveal-delay-3">
+        <div class="track-header">
+          <span class="track-icon" aria-hidden="true">📝</span>
+          <span class="track-freq-badge">每日 · 15 min</span>
+        </div>
+        <div>
+          <div class="track-name">词汇</div>
+          <div class="track-name-en">Vocabulary Track</div>
+        </div>
+        <p class="track-materials">
+          只记本周见过的词，不碰词表<br>
+          Anki + FSRS 间隔重复；6 要素卡片模板
+        </p>
+        <div class="track-progress">
+          <div class="progress-label">
+            <span>17 词已记录</span><span>持续积累</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width:0%" data-width="17%"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Grammar -->
+      <div class="track-card grammar reveal reveal-delay-4">
+        <div class="track-header">
+          <span class="track-icon" aria-hidden="true">📏</span>
+          <span class="track-freq-badge">每周 1 次 · 30 min</span>
+        </div>
+        <div>
+          <div class="track-name">语法</div>
+          <div class="track-name-en">Grammar Track</div>
+        </div>
+        <p class="track-materials">
+          be 动词 → 一般现在时 → 过去 → 进行 → 完成 → 从句…<br>
+          语法在应用中内化，不死记规则
+        </p>
+        <div class="track-progress">
+          <div class="progress-label">
+            <span>be 动词 + 一般现在时</span><span>Month 1</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width:0%" data-width="12%"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-link-row reveal">
+      <a href="plan.html" class="section-link">
+        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+        查看完整 6 个月排期
+        <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ═══ Methodology ═══════════════════════════════════════════ -->
+<section id="methodology">
+  <div class="container">
+    <div class="reveal">
+      <p class="section-label">方法论</p>
+      <h2 class="section-title">经过验证的学习框架</h2>
+      <p class="section-sub">不靠意志力，靠系统。每个方法都有明确的操作步骤。</p>
+    </div>
+
+    <div class="methods-grid">
+      <!-- Listening funnel -->
+      <div class="method-card reveal reveal-delay-1">
+        <p class="method-num">Method 01</p>
+        <h3 class="method-title">听力 6 步漏斗</h3>
+        <p class="method-subtitle">Listening 6-Step Funnel</p>
+        <ul class="method-steps" role="list">
+          <li data-step="1">盲听 <em>3 min</em> — 不看稿，测试原始理解</li>
+          <li data-step="2">看稿精读 <em>5 min</em> — 逐句理解</li>
+          <li data-step="3">Claude 拆解 <em>10 min</em> — 词汇、连读、语法</li>
+          <li data-step="4">带稿细听 <em>5 min</em> — 对照稿子听清楚</li>
+          <li data-step="5" class="highlight">影子跟读 <em>5 min</em> — 最关键步骤！</li>
+          <li data-step="6">脱稿复听 <em>2 min</em> — 检验吸收效果</li>
+        </ul>
+        <div class="method-tags">
+          <span class="method-tag key">关键：影子跟读</span>
+          <span class="method-tag">每次约 30 min</span>
+        </div>
+      </div>
+
+      <!-- Reading parallel -->
+      <div class="method-card reveal reveal-delay-2">
+        <p class="method-num">Method 02</p>
+        <h3 class="method-title">精读 + 泛读并行</h3>
+        <p class="method-subtitle">Intensive + Extensive Reading</p>
+        <ul class="method-steps" role="list">
+          <li data-step="精">精读：30 分钟吃透一篇，每词都搞懂</li>
+          <li data-step="泛">泛读：5-10 分钟不查词读完，只抓大意</li>
+        </ul>
+        <div class="method-tags">
+          <span class="method-tag key">泛读铁律：不查词</span>
+          <span class="method-tag">不翻译</span>
+          <span class="method-tag">不回头</span>
+          <span class="method-tag">生词 &gt; 30% 就换</span>
+        </div>
+      </div>
+
+      <!-- Vocab card -->
+      <div class="method-card reveal reveal-delay-3">
+        <p class="method-num">Method 03</p>
+        <h3 class="method-title">词汇卡片 6 要素</h3>
+        <p class="method-subtitle">Vocabulary Card 6 Elements</p>
+        <ul class="method-steps" role="list">
+          <li data-step="正">正面：单词 + 音标（仅此而已）</li>
+          <li data-step="义">词性 + 释义</li>
+          <li data-step="句">真实语境例句</li>
+          <li data-step="我">个人化例句</li>
+          <li data-step="配">搭配 &amp; 易混词</li>
+          <li data-step="钩">钩子记忆（可选）</li>
+        </ul>
+        <div class="method-tags">
+          <span class="method-tag key">Anki + FSRS</span>
+          <span class="method-tag">只记见过的词</span>
+        </div>
+      </div>
+
+      <!-- Linking rules -->
+      <div class="method-card reveal reveal-delay-4">
+        <p class="method-num">Method 04</p>
+        <h3 class="method-title">5 条最高频连读规律</h3>
+        <p class="method-subtitle">Top 5 Linking Sound Rules</p>
+        <ul class="method-steps" role="list">
+          <li data-step="1">going to → <strong>gonna</strong></li>
+          <li data-step="2">want to → <strong>wanna</strong></li>
+          <li data-step="3">got to → <strong>gotta</strong></li>
+          <li data-step="4">辅音 + 元音连读（pick it up → pi-ki-tup）</li>
+          <li data-step="5">弱读虚词（of / to / for / a）</li>
+        </ul>
+        <div class="method-tags">
+          <span class="method-tag key">已学：gonna</span>
+          <span class="method-tag">口语核心</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-link-row reveal">
+      <a href="materials/methodology/english_methodology.html" class="section-link">
+        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+        查看方法论可视化图解
+        <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ═══ Knowledge Base ════════════════════════════════════════ -->
+<section id="knowledge-base">
+  <div class="container">
+    <div class="reveal">
+      <p class="section-label">知识库</p>
+      <h2 class="section-title">已学知识清单</h2>
+      <p class="section-sub">所有学过的内容都在这里，随时复习，不重复造轮子。</p>
+    </div>
+
+    <!-- Tabs -->
+    <div class="kb-tabs reveal" role="tablist">
+      <button class="kb-tab active" role="tab" aria-selected="true" data-panel="grammar" aria-controls="panel-grammar">语法 Grammar</button>
+      <button class="kb-tab" role="tab" aria-selected="false" data-panel="vocab" aria-controls="panel-vocab">词汇 Vocab</button>
+      <button class="kb-tab" role="tab" aria-selected="false" data-panel="linking" aria-controls="panel-linking">连读 Linking</button>
+    </div>
+
+    <!-- Grammar panel -->
+    <div class="kb-panel active" id="panel-grammar" role="tabpanel">
+      <div class="grammar-grid">
+        <div class="grammar-item reveal reveal-delay-1">
+          <div class="grammar-check" aria-hidden="true">
+            <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg>
+          </div>
+          <div>
+            <div class="grammar-name">be 动词三句型</div>
+            <div class="grammar-tip">肯定 / 否定 / 疑问 + 缩写形式（I'm / He's / She isn't）</div>
+          </div>
+        </div>
+
+        <div class="grammar-item reveal reveal-delay-2">
+          <div class="grammar-check" aria-hidden="true">
+            <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg>
+          </div>
+          <div>
+            <div class="grammar-name">一般现在时三单加 s</div>
+            <div class="grammar-tip">He/She/It → 动词 +s；特殊：go→goes, do→does, have→has</div>
+          </div>
+        </div>
+
+        <div class="grammar-item reveal reveal-delay-3">
+          <div class="grammar-check" aria-hidden="true">
+            <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg>
+          </div>
+          <div>
+            <div class="grammar-name">"有 do 就不加 s" 口诀</div>
+            <div class="grammar-tip">Does he work? ✓（do 已经变了，work 不用加 s）</div>
+          </div>
+        </div>
+
+        <div class="grammar-item reveal reveal-delay-4">
+          <div class="grammar-check" aria-hidden="true">
+            <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg>
+          </div>
+          <div>
+            <div class="grammar-name">代词指代判断</div>
+            <div class="grammar-tip">阅读中 it / them 指代什么 — 看上下文最近的名词</div>
+          </div>
+        </div>
+
+        <div class="grammar-item reveal reveal-delay-4">
+          <div class="grammar-check" aria-hidden="true">
+            <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg>
+          </div>
+          <div>
+            <a href="materials/grammar/that-clause.html" style="text-decoration:none;color:inherit">
+              <div class="grammar-name">that 定语从句 🔗</div>
+              <div class="grammar-tip">名词 + that + 正常语序 — 给名词加描述（"……的"）</div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Vocab panel -->
+    <div class="kb-panel" id="panel-vocab" role="tabpanel">
+      <div class="vocab-grid">
+        <div class="vocab-card reveal reveal-delay-1">
+          <div class="vocab-word">employee</div>
+          <div class="vocab-phonetic">/ɪmˈplɔɪiː/</div>
+          <div class="vocab-meaning">员工，受雇者（被雇佣的人）</div>
+        </div>
+        <div class="vocab-card reveal reveal-delay-1">
+          <div class="vocab-word">employer</div>
+          <div class="vocab-phonetic">/ɪmˈplɔɪər/</div>
+          <div class="vocab-meaning">雇主（雇用别人的人或公司）</div>
+        </div>
+        <div class="vocab-card reveal reveal-delay-2">
+          <div class="vocab-word">smoothly</div>
+          <div class="vocab-phonetic">/ˈsmuːðli/</div>
+          <div class="vocab-meaning">顺畅地，流畅地</div>
+        </div>
+        <div class="vocab-card reveal reveal-delay-2">
+          <div class="vocab-word">step into</div>
+          <div class="vocab-phonetic">/step ˈɪntuː/</div>
+          <div class="vocab-meaning">走进（某地）；接手（某职位）</div>
+        </div>
+        <div class="vocab-card reveal reveal-delay-3">
+          <div class="vocab-word">eavesdrop</div>
+          <div class="vocab-phonetic">/ˈiːvzdrɑːp/</div>
+          <div class="vocab-meaning">偷听（他人谈话）</div>
+        </div>
+        <div class="vocab-card reveal reveal-delay-3">
+          <div class="vocab-word">ideal</div>
+          <div class="vocab-phonetic">/aɪˈdiːəl/</div>
+          <div class="vocab-meaning">理想的，完美的</div>
+        </div>
+        <div class="vocab-card reveal reveal-delay-4">
+          <div class="vocab-word">match</div>
+          <div class="vocab-phonetic">/mætʃ/</div>
+          <div class="vocab-meaning">匹配；相称；（在此）合适的人</div>
+        </div>
+        <div class="vocab-card reveal reveal-delay-4">
+          <div class="vocab-word">get on with</div>
+          <div class="vocab-phonetic">/ɡet ɒn wɪð/</div>
+          <div class="vocab-meaning">与…相处融洽</div>
+        </div>
+        <div class="vocab-card reveal reveal-delay-1">
+          <div class="vocab-word">apart from</div>
+          <div class="vocab-phonetic">/əˈpɑːt frɒm/</div>
+          <div class="vocab-meaning">除了…之外（还有）</div>
+        </div>
+        <div class="vocab-card reveal reveal-delay-1">
+          <div class="vocab-word">be part of</div>
+          <div class="vocab-phonetic">/biː pɑːt ɒv/</div>
+          <div class="vocab-meaning">成为…的一部分</div>
+        </div>
+        <div class="vocab-card reveal reveal-delay-2">
+          <div class="vocab-word">complaint</div>
+          <div class="vocab-phonetic">/kəmˈpleɪnt/</div>
+          <div class="vocab-meaning">投诉，抱怨（名词）</div>
+        </div>
+        <div class="vocab-card reveal reveal-delay-2">
+          <div class="vocab-word">delivery</div>
+          <div class="vocab-phonetic">/dɪˈlɪvəri/</div>
+          <div class="vocab-meaning">配送，送货</div>
+        </div>
+        <div class="vocab-card reveal reveal-delay-3">
+          <div class="vocab-word">order</div>
+          <div class="vocab-phonetic">/ˈɔːrdər/</div>
+          <div class="vocab-meaning">订单；命令；顺序（多义词）</div>
+        </div>
+        <div class="vocab-card reveal reveal-delay-3">
+          <div class="vocab-word">responsible</div>
+          <div class="vocab-phonetic">/rɪˈspɒnsɪbl/</div>
+          <div class="vocab-meaning">负责的；有责任的</div>
+        </div>
+        <div class="vocab-card reveal reveal-delay-4">
+          <div class="vocab-word">mistakes happen</div>
+          <div class="vocab-phonetic">/mɪˈsteɪks ˈhæpən/</div>
+          <div class="vocab-meaning">错误总会发生（常用安慰语）</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Linking panel -->
+    <div class="kb-panel" id="panel-linking" role="tabpanel">
+      <div class="link-rules-grid">
+        <div class="link-rule reveal reveal-delay-1">
+          <span class="rule-num">1</span>
+          <div class="rule-arrow">
+            <span class="rule-before">going to</span>
+            <span class="rule-to">→</span>
+            <span class="rule-after">gonna</span>
+          </div>
+          <span class="rule-desc">已学 ✓</span>
+        </div>
+        <div class="link-rule reveal reveal-delay-2">
+          <span class="rule-num">2</span>
+          <div class="rule-arrow">
+            <span class="rule-before">want to</span>
+            <span class="rule-to">→</span>
+            <span class="rule-after">wanna</span>
+          </div>
+          <span class="rule-desc">待学</span>
+        </div>
+        <div class="link-rule reveal reveal-delay-3">
+          <span class="rule-num">3</span>
+          <div class="rule-arrow">
+            <span class="rule-before">got to</span>
+            <span class="rule-to">→</span>
+            <span class="rule-after">gotta</span>
+          </div>
+          <span class="rule-desc">待学</span>
+        </div>
+        <div class="link-rule reveal reveal-delay-4">
+          <span class="rule-num">4</span>
+          <div class="rule-arrow">
+            <span class="rule-before">辅音 + 元音</span>
+            <span class="rule-to">连读</span>
+            <span class="rule-after">pick it up</span>
+          </div>
+          <span class="rule-desc">pi-ki-tup</span>
+        </div>
+        <div class="link-rule reveal reveal-delay-4">
+          <span class="rule-num">5</span>
+          <div class="rule-arrow">
+            <span class="rule-before">弱读虚词</span>
+            <span class="rule-to">弱化</span>
+            <span class="rule-after">of / to / for / a</span>
+          </div>
+          <span class="rule-desc">听起来很短</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ═══ Materials ═════════════════════════════════════════════ -->
+<section id="materials">
+  <div class="container">
+    <div class="reveal">
+      <p class="section-label">精讲素材</p>
+      <h2 class="section-title">已学与在学素材</h2>
+      <p class="section-sub">每一集都经过 6 步漏斗精讲，附带词汇拆解和练习题。</p>
+    </div>
+
+    <div class="materials-grid">
+      <!-- BBC EAW EP01 -->
+      <div class="material-card reveal reveal-delay-1">
+        <div class="material-header">
+          <div>
+            <div class="material-tag">BBC English at Work</div>
+            <div class="material-title">Episode 01<br>Anna's First Day</div>
+          </div>
+          <span class="material-status status-done">
+            <svg width="10" height="10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg>
+            完成
+          </span>
+        </div>
+        <div class="material-body">
+          <p class="material-desc">
+            Anna 第一天上班，跟 Neil 开场白 + 面试场景 + 处理客户投诉。
+          </p>
+          <div class="material-scenes">
+            <div class="scene-item">
+              <span class="scene-dot done"></span>
+              场景 A：Neil 开场 — 职场问候基础
+            </div>
+            <div class="scene-item">
+              <span class="scene-dot done"></span>
+              场景 B：Anna 面试 — 自我介绍词汇
+            </div>
+            <div class="scene-item">
+              <span class="scene-dot done"></span>
+              场景 C：Paul 处理投诉 — 服务英语
+            </div>
+            <div class="scene-item">
+              <span class="scene-dot wip"></span>
+              场景 D：Tom &amp; Denise — 留作独立阅读挑战
+            </div>
+          </div>
+        </div>
+        <div class="material-links">
+          <span class="mat-link disabled">
+            <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            笔记（整理中）
+          </span>
+        </div>
+      </div>
+
+      <!-- BBC EAW EP02 -->
+      <div class="material-card reveal reveal-delay-2">
+        <div class="material-header">
+          <div>
+            <div class="material-tag">BBC English at Work</div>
+            <div class="material-title">Episode 02<br>Workplace Challenges</div>
+          </div>
+          <span class="material-status status-wip">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="3"/></svg>
+            进行中
+          </span>
+        </div>
+        <div class="material-body">
+          <p class="material-desc">
+            职场第二集：Anna 接电话、处理更复杂的沟通挑战，语法和词汇量进一步扩展。
+          </p>
+          <div class="material-scenes">
+            <div class="scene-item">
+              <span class="scene-dot wip"></span>
+              精讲笔记（Markdown）
+            </div>
+            <div class="scene-item">
+              <span class="scene-dot wip"></span>
+              配套练习题（交互 HTML）
+            </div>
+          </div>
+        </div>
+        <div class="material-links">
+          <a href="materials/bbc-eaw/ep02.md" class="mat-link">
+            <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            精讲笔记
+          </a>
+          <a href="materials/bbc-eaw/ep02-exercises.html" class="mat-link">
+            <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/></svg>
+            练习题
+          </a>
+        </div>
+      </div>
+
+      <!-- BBC 6ME placeholder -->
+      <div class="material-card reveal reveal-delay-3">
+        <div class="material-header">
+          <div>
+            <div class="material-tag">BBC 6 Minute English</div>
+            <div class="material-title">即将开始<br>精听训练</div>
+          </div>
+          <span class="material-status status-todo">
+            待开始
+          </span>
+        </div>
+        <div class="material-body">
+          <p class="material-desc">
+            BBC 6 Minute English 每集 6 分钟，话题覆盖广，适合听力启蒙阶段的碎片化精听。
+          </p>
+          <div class="material-scenes">
+            <div class="scene-item">
+              <span class="scene-dot todo"></span>
+              选定第一集话题
+            </div>
+            <div class="scene-item">
+              <span class="scene-dot todo"></span>
+              6 步漏斗精讲
+            </div>
+          </div>
+        </div>
+        <div class="material-links">
+          <span class="mat-link disabled">尚未开始</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ═══ Learning Log ═══════════════════════════════════════════ -->
+<section id="log">
+  <div class="container">
+    <div class="reveal">
+      <p class="section-label">学习日志</p>
+      <h2 class="section-title">成长里程碑</h2>
+      <p class="section-sub">每一步都算数。记录下来，是为了回头看时知道走了多远。</p>
+    </div>
+
+    <div class="timeline reveal">
+      <div class="timeline-item milestone">
+        <div class="timeline-date">2026-04-19</div>
+        <div class="timeline-title">🚀 正式启动英语学习计划</div>
+        <div class="timeline-body">
+          完成摸底测试（CEFR A2），制定 6 个月学习路线图。确定 4 轨并行体系：阅读、听力、词汇、语法。
+        </div>
+        <div class="timeline-tags">
+          <span class="t-tag">里程碑</span>
+          <span class="t-tag">计划制定</span>
+        </div>
+      </div>
+
+      <div class="timeline-item milestone">
+        <div class="timeline-date">2026-04-19</div>
+        <div class="timeline-title">📖 be 动词三句型 + 一般现在时</div>
+        <div class="timeline-body">
+          学习 be 动词肯定/否定/疑问三句型，以及"有 do 就不加 s"口诀。0 个真正的语法错误，只有 1 次手误。
+        </div>
+        <div class="timeline-tags">
+          <span class="t-tag">语法</span>
+          <span class="t-tag">D1</span>
+        </div>
+      </div>
+
+      <div class="timeline-item milestone">
+        <div class="timeline-date">2026-04-19</div>
+        <div class="timeline-title">🎧 BBC EAW EP01 精讲完成</div>
+        <div class="timeline-body">
+          完成 BBC English at Work 第 1 集三个场景（A/B/C）的 6 步漏斗精讲。积累词汇：employee、employer、smoothly、step into、eavesdrop 等 15+ 个词。
+        </div>
+        <div class="timeline-tags">
+          <span class="t-tag">听力</span>
+          <span class="t-tag">词汇 +15</span>
+          <span class="t-tag">BBC EAW</span>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-date">2026-04-21</div>
+        <div class="timeline-title">🌱 BBC EAW EP02 开始精讲</div>
+        <div class="timeline-body">
+          第二集材料准备就绪，配套练习题已制作。
+        </div>
+        <div class="timeline-tags">
+          <span class="t-tag">听力</span>
+          <span class="t-tag">进行中</span>
+        </div>
+      </div>
+
+      <!-- Future placeholder -->
+      <div class="timeline-placeholder">
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" style="flex-shrink:0;color:var(--ink-4)"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        每次学习结束后，Claude 会在 <code style="font-family:monospace;background:var(--border);padding:1px 5px;border-radius:3px;font-size:12px">logs/</code> 目录生成当日日志，未来会在这里展示
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ═══ Footer ════════════════════════════════════════════════ -->
+<footer>
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <span class="footer-name">Bob · Learn English</span>
+      <span class="footer-tagline">一起学英语 — 一步一步，不着急</span>
+    </div>
+
+    <div class="footer-links">
+      <a href="plan.html" class="footer-link">
+        <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+        6 个月计划
+      </a>
+      <a href="materials/methodology/english_methodology.html" class="footer-link">
+        <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+        方法论
+      </a>
+      <a href="https://github.com/bob798/learn-english" class="footer-link" target="_blank" rel="noopener noreferrer">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+        GitHub
+      </a>
+    </div>
+
+    <div class="footer-credit">
+      Powered by <a href="https://claude.ai" target="_blank" rel="noopener">Claude Code</a><br>
+      <span style="color:var(--ink-4);font-size:11px">Bob 的英语成长记录 · 2026</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══ Scripts ════════════════════════════════════════════════ -->
+<script>
+(function() {
+  'use strict';
+
+  // ─── Theme toggle ──────────────────────────────────────────
+  const root = document.documentElement;
+  const themeBtn = document.getElementById('themeToggle');
+
+  const savedTheme = localStorage.getItem('bob-eng-theme') || 'light';
+  root.setAttribute('data-theme', savedTheme);
+
+  themeBtn.addEventListener('click', function() {
+    const current = root.getAttribute('data-theme');
+    const next = current === 'light' ? 'dark' : 'light';
+    root.setAttribute('data-theme', next);
+    localStorage.setItem('bob-eng-theme', next);
+  });
+
+  // ─── Tab switching ─────────────────────────────────────────
+  const tabs = document.querySelectorAll('.kb-tab');
+  const panels = document.querySelectorAll('.kb-panel');
+
+  tabs.forEach(function(tab) {
+    tab.addEventListener('click', function() {
+      const target = tab.dataset.panel;
+
+      tabs.forEach(function(t) {
+        t.classList.remove('active');
+        t.setAttribute('aria-selected', 'false');
+      });
+      panels.forEach(function(p) { p.classList.remove('active'); });
+
+      tab.classList.add('active');
+      tab.setAttribute('aria-selected', 'true');
+      const panel = document.getElementById('panel-' + target);
+      if (panel) {
+        panel.classList.add('active');
+        // Trigger reveal for newly shown items
+        panel.querySelectorAll('.reveal').forEach(function(el) {
+          el.classList.add('visible');
+        });
+      }
+    });
+  });
+
+  // ─── Scroll reveal ─────────────────────────────────────────
+  const revealEls = document.querySelectorAll('.reveal');
+
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+    revealEls.forEach(function(el) { observer.observe(el); });
+  } else {
+    // Fallback: show all
+    revealEls.forEach(function(el) { el.classList.add('visible'); });
+  }
+
+  // ─── Progress bar animation ────────────────────────────────
+  const fills = document.querySelectorAll('.progress-fill[data-width]');
+
+  if ('IntersectionObserver' in window) {
+    const progObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          var el = entry.target;
+          el.style.width = el.dataset.width;
+          progObserver.unobserve(el);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    fills.forEach(function(el) { progObserver.observe(el); });
+  } else {
+    fills.forEach(function(el) { el.style.width = el.dataset.width; });
+  }
+
+  // ─── Smooth nav highlight ──────────────────────────────────
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+
+  if (sections.length && navLinks.length) {
+    const sectionObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          var id = entry.target.getAttribute('id');
+          navLinks.forEach(function(link) {
+            link.style.color = '';
+            link.style.background = '';
+            if (link.getAttribute('href') === '#' + id) {
+              link.style.color = 'var(--jade)';
+              link.style.background = 'var(--jade-pale)';
+            }
+          });
+        }
+      });
+    }, { rootMargin: '-30% 0px -60% 0px' });
+
+    sections.forEach(function(s) { sectionObserver.observe(s); });
+  }
+
+  // ─── Learning days counter ─────────────────────────────────
+  var startDate = new Date('2026-04-19');
+  var today = new Date();
+  var diff = Math.floor((today - startDate) / (1000 * 60 * 60 * 24)) + 1;
+  var dayEl = document.getElementById('stat-days');
+  if (dayEl && diff > 0) { dayEl.textContent = diff; }
+
+})();
+</script>
+
+</body>
+</html>
