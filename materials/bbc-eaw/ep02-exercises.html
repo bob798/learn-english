@@ -125,6 +125,16 @@ h1{font-size:28px;font-weight:700;margin-bottom:4px;letter-spacing:-0.02em}
 .export-box.show{display:block}
 .export-text{width:100%;height:200px;padding:12px;border:1px solid #e5e5e3;border-radius:8px;font-size:12px;font-family:"SF Mono","Fira Code",monospace;line-height:1.5;resize:vertical;color:#1a1a1a;background:#fafaf9}
 
+.fab{position:fixed;bottom:24px;right:24px;padding:14px 20px;background:#534ab7;color:#fff;border:none;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;box-shadow:0 4px 16px rgba(83,74,183,0.4);transition:all 0.2s;z-index:999;display:flex;align-items:center;gap:6px}
+.fab:hover{background:#3c3489;transform:translateY(-2px);box-shadow:0 6px 20px rgba(83,74,183,0.5)}
+.fab:active{transform:translateY(0)}
+.fab.copied{background:#1d9e75;box-shadow:0 4px 16px rgba(29,158,117,0.4)}
+.fab-box{position:fixed;bottom:80px;right:24px;width:min(360px,calc(100vw - 48px));background:#fff;border:2px solid #534ab7;border-radius:12px;padding:16px;z-index:999;box-shadow:0 8px 32px rgba(0,0,0,0.15);display:none;animation:fadeIn 0.3s}
+.fab-box.show{display:block}
+.fab-box-text{width:100%;height:180px;padding:10px;border:1px solid #e5e5e3;border-radius:8px;font-size:11px;font-family:"SF Mono","Fira Code",monospace;line-height:1.5;resize:vertical;color:#1a1a1a;background:#fafaf9}
+.fab-box-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.fab-box-close{background:none;border:none;font-size:18px;cursor:pointer;color:#6b6b68;padding:0 4px}
+
 @media(max-width:600px){body{padding:24px 16px 60px}h1{font-size:22px}.match-area{grid-template-columns:1fr}.score-detail{gap:10px}}
 </style>
 </head>
@@ -536,6 +546,16 @@ h1{font-size:28px;font-weight:700;margin-bottom:4px;letter-spacing:-0.02em}
   <textarea class="export-text" id="export-text" readonly></textarea>
 </div>
 
+<!-- Floating export button — always visible -->
+<button class="fab" id="fab" onclick="fabExport()">📋 复制答案</button>
+<div class="fab-box" id="fab-box">
+  <div class="fab-box-header">
+    <span style="font-size:13px;font-weight:600;color:#534ab7">粘贴给 Claude 即可批改</span>
+    <button class="fab-box-close" onclick="document.getElementById('fab-box').classList.remove('show')">&times;</button>
+  </div>
+  <textarea class="fab-box-text" id="fab-box-text" readonly></textarea>
+</div>
+
 <script>
 // ========== Core State ==========
 // Scoring items (20 total):
@@ -942,6 +962,89 @@ function exportAnswers() {
   });
 
   box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+// ========== Floating Export ==========
+function buildAnswerText() {
+  const lines = [];
+  lines.push('=== BBC EaW EP02 练习答案 ===');
+  lines.push('日期: ' + new Date().toLocaleDateString('zh-CN'));
+  lines.push('进度: ' + S.answered.size + '/' + S.total);
+  lines.push('');
+
+  function getAnswer(id) {
+    const q = document.getElementById(id);
+    if (!q) return '未作答';
+    const chosen = q.querySelector('.option.correct, .option.wrong');
+    if (!chosen) return '未作答';
+    const ok = q.classList.contains('answered-correct') ? '✓' : '✗';
+    return chosen.dataset.val.toUpperCase() + ' ' + ok;
+  }
+
+  lines.push('## 模块1 场景理解');
+  ['q1','q2','q3','q4'].forEach(id => lines.push(id.toUpperCase() + ': ' + getAnswer(id)));
+
+  lines.push('');
+  lines.push('## 模块2 生词');
+  lines.push('配对: ' + (S.answered.has('match') ? '全对 ✓' : S.mDone + '/' + S.mTotal));
+  ['q5','q6'].forEach(id => lines.push(id.toUpperCase() + ': ' + getAnswer(id)));
+
+  lines.push('');
+  lines.push('## 模块3 关键表达');
+  ['q7','q8'].forEach(id => lines.push(id.toUpperCase() + ': ' + getAnswer(id)));
+  const blanks = document.querySelectorAll('.blank');
+  const fills = [];
+  blanks.forEach(b => fills.push(b.textContent));
+  lines.push('填空: ' + fills.join(' / '));
+
+  lines.push('');
+  lines.push('## 模块4 发音认知');
+  const gaps = document.querySelectorAll('#pron-s1 .word-gap');
+  const wordPairs = ['Hold|tight','tight|please','please|I','I|need','need|to','to|get','get|back','back|to','to|work'];
+  const marked = [];
+  gaps.forEach((g, i) => {
+    if (g.classList.contains('correct-mark')) marked.push(wordPairs[i] + ' ✓');
+    else if (g.classList.contains('wrong-mark')) marked.push(wordPairs[i] + ' ✗');
+    else if (g.classList.contains('missed')) marked.push(wordPairs[i] + ' 漏');
+    else if (g.classList.contains('marked')) marked.push(wordPairs[i] + ' ?');
+  });
+  lines.push('标注: ' + (marked.length ? marked.join(', ') : '未作答'));
+  ['q10','q11'].forEach(id => lines.push(id.toUpperCase() + ': ' + getAnswer(id)));
+
+  lines.push('');
+  lines.push('## 模块5 语法聚焦');
+  ['q12','q13','q14','q15'].forEach(id => lines.push(id.toUpperCase() + ': ' + getAnswer(id)));
+
+  lines.push('');
+  lines.push('## 模块6 情景输出');
+  const zone = document.getElementById('reorder-zone');
+  const reorderWords = Array.from(zone.children).map(c => c.textContent.trim());
+  lines.push('语序重组: ' + (reorderWords.length ? reorderWords.join(' ') : '未作答'));
+  const verb = document.getElementById('guided-verb');
+  const obj = document.getElementById('guided-obj');
+  const guidedText = (verb ? verb.value : '') + ' ' + (obj ? obj.value : '');
+  lines.push('半引导: I\'m particularly proud of ' + guidedText.trim());
+  const open = document.getElementById('open-answer');
+  lines.push('开放输出: ' + (open && open.value ? open.value : '未作答'));
+
+  return lines.join('\n');
+}
+
+function fabExport() {
+  const text = buildAnswerText();
+  const fab = document.getElementById('fab');
+  const box = document.getElementById('fab-box');
+  const textarea = document.getElementById('fab-box-text');
+  textarea.value = text;
+  box.classList.add('show');
+
+  navigator.clipboard.writeText(text).then(() => {
+    fab.textContent = '✓ 已复制';
+    fab.classList.add('copied');
+    setTimeout(() => { fab.textContent = '📋 复制答案'; fab.classList.remove('copied'); }, 2000);
+  }).catch(() => {
+    textarea.select();
+  });
 }
 </script>
 
