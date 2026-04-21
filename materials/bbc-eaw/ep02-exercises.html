@@ -118,6 +118,13 @@ h1{font-size:28px;font-weight:700;margin-bottom:4px;letter-spacing:-0.02em}
 
 @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 @keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-4px)}40%,80%{transform:translateX(4px)}}
+
+.export-btn{display:inline-flex;align-items:center;gap:6px;padding:12px 24px;background:rgba(255,255,255,0.2);color:#fff;border:2px solid rgba(255,255,255,0.4);border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;margin-top:20px;transition:all 0.2s}
+.export-btn:hover{background:rgba(255,255,255,0.3);border-color:#fff}
+.export-box{display:none;background:#fff;border:2px solid #534ab7;border-radius:12px;padding:16px;margin-top:16px;animation:fadeIn 0.3s}
+.export-box.show{display:block}
+.export-text{width:100%;height:200px;padding:12px;border:1px solid #e5e5e3;border-radius:8px;font-size:12px;font-family:"SF Mono","Fira Code",monospace;line-height:1.5;resize:vertical;color:#1a1a1a;background:#fafaf9}
+
 @media(max-width:600px){body{padding:24px 16px 60px}h1{font-size:22px}.match-area{grid-template-columns:1fr}.score-detail{gap:10px}}
 </style>
 </head>
@@ -518,6 +525,15 @@ h1{font-size:28px;font-weight:700;margin-bottom:4px;letter-spacing:-0.02em}
     <span>输出 <strong id="sc6">-</strong></span>
   </div>
   <div class="score-msg" id="score-msg"></div>
+  <button class="export-btn" onclick="exportAnswers()">📋 复制答案给 Claude 批改</button>
+</div>
+
+<div class="export-box" id="export-box">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+    <span style="font-size:13px;font-weight:600;color:#534ab7">答案已复制到剪贴板 ✓</span>
+    <span style="font-size:12px;color:#6b6b68">也可手动复制下方内容</span>
+  </div>
+  <textarea class="export-text" id="export-text" readonly></textarea>
 </div>
 
 <script>
@@ -807,6 +823,125 @@ function showScore() {
   const card = document.getElementById('score-card');
   card.classList.add('show');
   card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+// ========== Export Answers ==========
+function exportAnswers() {
+  const lines = [];
+  lines.push('=== BBC EaW EP02 练习答案 ===');
+  lines.push('日期: ' + new Date().toLocaleDateString('zh-CN'));
+  lines.push('');
+
+  // Module 1: single-select
+  lines.push('## 模块1 场景理解');
+  ['q1','q2','q3','q4'].forEach(id => {
+    const q = document.getElementById(id);
+    if (!q) return;
+    const chosen = q.querySelector('.option.correct, .option.wrong');
+    const answer = chosen ? chosen.dataset.val.toUpperCase() : '未作答';
+    const ok = q.classList.contains('answered-correct') ? '✓' : q.classList.contains('answered-wrong') ? '✗' : '-';
+    lines.push(id.toUpperCase() + ': ' + answer + ' ' + ok);
+  });
+
+  // Module 2
+  lines.push('');
+  lines.push('## 模块2 生词');
+  lines.push('配对: ' + (S.answered.has('match') ? '全对 ✓' : '未完成'));
+  ['q5','q6'].forEach(id => {
+    const q = document.getElementById(id);
+    if (!q) return;
+    const chosen = q.querySelector('.option.correct, .option.wrong');
+    const answer = chosen ? chosen.dataset.val.toUpperCase() : '未作答';
+    const ok = q.classList.contains('answered-correct') ? '✓' : q.classList.contains('answered-wrong') ? '✗' : '-';
+    lines.push(id.toUpperCase() + ': ' + answer + ' ' + ok);
+  });
+
+  // Module 3
+  lines.push('');
+  lines.push('## 模块3 关键表达');
+  ['q7','q8'].forEach(id => {
+    const q = document.getElementById(id);
+    if (!q) return;
+    const chosen = q.querySelector('.option.correct, .option.wrong');
+    const answer = chosen ? chosen.dataset.val.toUpperCase() : '未作答';
+    const ok = q.classList.contains('answered-correct') ? '✓' : q.classList.contains('answered-wrong') ? '✗' : '-';
+    lines.push(id.toUpperCase() + ': ' + answer + ' ' + ok);
+  });
+  const blanks = document.querySelectorAll('.blank');
+  const fills = [];
+  blanks.forEach(b => fills.push(b.textContent));
+  lines.push('填空: ' + fills.join(' / '));
+
+  // Module 4
+  lines.push('');
+  lines.push('## 模块4 发音认知');
+  const gaps = document.querySelectorAll('#pron-s1 .word-gap');
+  const marked = [];
+  const words = ['Hold|tight','tight|please','please|I','I|need','need|to','to|get','get|back','back|to','to|work'];
+  gaps.forEach((g, i) => {
+    if (g.classList.contains('correct-mark')) marked.push(words[i] + ' ✓');
+    else if (g.classList.contains('wrong-mark')) marked.push(words[i] + ' ✗');
+    else if (g.classList.contains('missed')) marked.push(words[i] + ' 漏');
+  });
+  lines.push('标注: ' + (marked.length ? marked.join(', ') : '未作答'));
+  ['q10','q11'].forEach(id => {
+    const q = document.getElementById(id);
+    if (!q) return;
+    const chosen = q.querySelector('.option.correct, .option.wrong');
+    const answer = chosen ? chosen.dataset.val.toUpperCase() : '未作答';
+    const ok = q.classList.contains('answered-correct') ? '✓' : q.classList.contains('answered-wrong') ? '✗' : '-';
+    lines.push(id.toUpperCase() + ': ' + answer + ' ' + ok);
+  });
+
+  // Module 5
+  lines.push('');
+  lines.push('## 模块5 语法聚焦');
+  ['q12','q13','q14','q15'].forEach(id => {
+    const q = document.getElementById(id);
+    if (!q) return;
+    const chosen = q.querySelector('.option.correct, .option.wrong');
+    const answer = chosen ? chosen.dataset.val.toUpperCase() : '未作答';
+    const ok = q.classList.contains('answered-correct') ? '✓' : q.classList.contains('answered-wrong') ? '✗' : '-';
+    lines.push(id.toUpperCase() + ': ' + answer + ' ' + ok);
+  });
+
+  // Module 6
+  lines.push('');
+  lines.push('## 模块6 情景输出');
+  const zone = document.getElementById('reorder-zone');
+  const reorderWords = Array.from(zone.children).map(c => c.textContent.trim());
+  lines.push('语序重组: ' + (reorderWords.length ? reorderWords.join(' ') : '未作答'));
+
+  const verb = document.getElementById('guided-verb');
+  const obj = document.getElementById('guided-obj');
+  lines.push('半引导: I\'m particularly proud of ' + (verb ? verb.value : '') + ' ' + (obj ? obj.value : ''));
+
+  const open = document.getElementById('open-answer');
+  lines.push('开放输出: ' + (open ? open.value : ''));
+
+  // Score
+  lines.push('');
+  lines.push('## 得分');
+  lines.push(document.getElementById('score-num').textContent);
+  ['sc1','sc2','sc3','sc4','sc5','sc6'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      const labels = {sc1:'理解',sc2:'生词',sc3:'表达',sc4:'发音',sc5:'语法',sc6:'输出'};
+      lines.push(labels[id] + ': ' + el.textContent);
+    }
+  });
+
+  const text = lines.join('\n');
+  const box = document.getElementById('export-box');
+  const textarea = document.getElementById('export-text');
+  textarea.value = text;
+  box.classList.add('show');
+
+  navigator.clipboard.writeText(text).catch(() => {
+    textarea.select();
+  });
+
+  box.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 </script>
 
