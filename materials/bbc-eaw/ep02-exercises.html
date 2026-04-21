@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BBC EAW Ep.02 The Interview | 练习</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;color:#1a1a1a;background:#fafaf9;line-height:1.7;max-width:720px;margin:0 auto;padding:40px 24px 80px}
+h1{font-size:28px;font-weight:700;margin-bottom:4px;letter-spacing:-0.02em}
+.subtitle{color:#6b6b68;font-size:14px;margin-bottom:32px}
+.progress-bar{background:#e5e5e3;border-radius:20px;height:8px;margin-bottom:36px;overflow:hidden}
+.progress-fill{background:linear-gradient(90deg,#534ab7,#7c6cf0);height:100%;border-radius:20px;width:0%;transition:width 0.5s ease}
+.progress-text{font-size:12px;color:#6b6b68;margin-bottom:8px;text-align:right}
+
+.section{margin-bottom:44px}
+.section-header{display:flex;align-items:center;gap:10px;margin-bottom:16px;padding-bottom:10px;border-bottom:2px solid #e5e5e3}
+.section-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;font-weight:700;color:#fff}
+.section-icon.mod1{background:#0c447c}
+.section-icon.mod2{background:#3c3489}
+.section-icon.mod3{background:#085041}
+.section-icon.mod4{background:#854f0b}
+.section-icon.mod5{background:#a32d2d}
+.section-icon.mod6{background:#5b2d8e}
+.section-title{font-size:18px;font-weight:600}
+.section-desc{font-size:13px;color:#6b6b68}
+
+.question{background:#fff;border:1px solid #e5e5e3;border-radius:12px;padding:20px;margin-bottom:14px;transition:border-color 0.3s}
+.question.answered-correct{border-color:#1d9e75}
+.question.answered-wrong{border-color:#d94848}
+.q-num{font-size:12px;color:#534ab7;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px}
+.q-text{font-size:15px;font-weight:500;margin-bottom:14px;line-height:1.6}
+.q-context{font-size:13px;color:#6b6b68;background:#f5f4f1;padding:10px 14px;border-radius:8px;margin-bottom:14px;border-left:3px solid #d4d3d0}
+
+.options{display:flex;flex-direction:column;gap:8px}
+.option{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border:1px solid #e5e5e3;border-radius:8px;cursor:pointer;transition:all 0.2s;font-size:14px;user-select:none}
+.option:hover:not(.disabled){background:#f5f4f1;border-color:#c5c4c0}
+.option.correct{background:#e1f5ee;border-color:#1d9e75}
+.option.wrong{background:#fcebeb;border-color:#d94848}
+.option.disabled{cursor:default;opacity:0.7}
+.option.disabled.show-correct{opacity:1;background:#e1f5ee;border-color:#1d9e75}
+.opt-letter{width:24px;height:24px;border-radius:50%;background:#f5f4f1;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:#6b6b68;flex-shrink:0;border:1px solid #e5e5e3;transition:all 0.2s}
+.option.correct .opt-letter{background:#1d9e75;color:#fff;border-color:#1d9e75}
+.option.wrong .opt-letter{background:#d94848;color:#fff;border-color:#d94848}
+
+.feedback{margin-top:12px;padding:12px 16px;border-radius:8px;font-size:13px;line-height:1.6;display:none}
+.feedback.show{display:block;animation:fadeIn 0.3s ease}
+.feedback.correct{background:#e1f5ee;border-left:3px solid #1d9e75;color:#085041}
+.feedback.wrong{background:#fcebeb;border-left:3px solid #d94848;color:#6e1a1a}
+
+/* Match */
+.match-area{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.match-col-title{font-size:12px;color:#6b6b68;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px}
+.match-item{padding:10px 14px;background:#fff;border:1px solid #e5e5e3;border-radius:8px;font-size:13px;cursor:pointer;transition:all 0.2s;text-align:center;margin-bottom:6px}
+.match-item:hover:not(.matched){border-color:#534ab7}
+.match-item.active{background:#eeedfe;border-color:#534ab7;font-weight:500}
+.match-item.matched{background:#e1f5ee;border-color:#1d9e75;cursor:default}
+.match-item.wrong-flash{background:#fcebeb;border-color:#d94848;animation:shake 0.4s}
+
+/* Fill blank */
+.fill-area{margin:16px 0}
+.fill-sentence{font-size:15px;line-height:2.2;margin-bottom:14px}
+.blank{display:inline-block;min-width:120px;border-bottom:2px solid #534ab7;padding:2px 8px;text-align:center;font-weight:500;color:#534ab7;cursor:pointer;transition:all 0.3s;position:relative}
+.blank.active-blank{outline:2px solid #534ab7;outline-offset:2px;border-radius:4px}
+.blank.filled{color:#3c3489}
+.blank.correct{border-color:#1d9e75;color:#1d9e75}
+.blank.wrong{border-color:#d94848;color:#d94848}
+.word-bank{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.word-chip{padding:6px 14px;background:#f5f4f1;border:1px solid #e5e5e3;border-radius:20px;font-size:13px;cursor:pointer;transition:all 0.2s;user-select:none}
+.word-chip:hover:not(.used){background:#eeedfe;border-color:#534ab7}
+.word-chip.used{opacity:0.35;cursor:default;text-decoration:line-through}
+
+/* Pron: click-to-mark */
+.pron-sentence{font-size:16px;line-height:2.4;padding:14px 18px;background:#fff;border:1px solid #e5e5e3;border-radius:8px;margin-bottom:8px;letter-spacing:0.01em;user-select:none}
+.word-gap{display:inline-block;width:4px;height:20px;margin:0 1px;cursor:pointer;border-radius:2px;vertical-align:middle;transition:all 0.2s;position:relative}
+.word-gap:hover{background:#faeeda}
+.word-gap.marked{background:#534ab7;width:6px}
+.word-gap.correct-mark{background:#1d9e75;width:6px}
+.word-gap.wrong-mark{background:#d94848;width:6px}
+.word-gap.missed{background:#fac775;width:6px}
+.pron-legend{font-size:12px;color:#6b6b68;margin-bottom:14px}
+.pron-rule{display:inline-block;padding:3px 8px;font-size:12px;border-radius:4px;font-weight:500}
+.pron-rule.plosion{background:#faeeda;color:#854f0b}
+.pron-rule.linking{background:#e6f1fb;color:#0c447c}
+
+/* Reorder */
+.reorder-zone{min-height:48px;padding:10px;border:2px dashed #e5e5e3;border-radius:8px;margin-bottom:10px;display:flex;flex-wrap:wrap;gap:8px;transition:border-color 0.2s}
+.reorder-zone:empty::before{content:'点击下方单词，按正确语序放入此处';color:#c5c4c0;font-size:13px}
+.reorder-zone.correct{border-color:#1d9e75;background:#f0faf5}
+.reorder-zone.wrong{border-color:#d94848;background:#fef5f5}
+.word-block{padding:8px 14px;background:#eeedfe;border:1px solid #c5c0f0;border-radius:8px;font-size:14px;cursor:pointer;user-select:none;transition:all 0.15s}
+.word-block:hover{background:#dddaf8}
+.word-block.in-zone{background:#534ab7;color:#fff;border-color:#534ab7}
+.word-block.in-zone:hover{background:#3c3489}
+
+/* Output */
+.output-area{width:100%;min-height:80px;padding:12px 14px;border:1px solid #e5e5e3;border-radius:8px;font-size:14px;font-family:inherit;line-height:1.6;resize:vertical;transition:border-color 0.2s}
+.output-area:focus{outline:none;border-color:#534ab7}
+.scaffold{font-size:14px;line-height:2;padding:12px 16px;background:#f5f4f1;border-radius:8px;margin-bottom:12px}
+.scaffold select{padding:4px 8px;border:1px solid #c5c4c0;border-radius:4px;font-size:14px;font-family:inherit;background:#fff}
+
+.hint-btn{display:inline-flex;align-items:center;gap:4px;padding:6px 14px;background:#f5f4f1;border:1px solid #e5e5e3;border-radius:6px;font-size:12px;cursor:pointer;color:#6b6b68;margin-top:8px;transition:all 0.2s}
+.hint-btn:hover{background:#eeedfe;color:#534ab7;border-color:#534ab7}
+.hint-content{margin-top:8px;padding:10px 14px;background:#eeedfe;border-radius:8px;font-size:13px;color:#3c3489;display:none}
+.hint-content.show{display:block;animation:fadeIn 0.3s}
+
+.check-btn{display:inline-flex;align-items:center;gap:6px;padding:10px 22px;background:#534ab7;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:500;cursor:pointer;transition:all 0.2s;margin-top:12px}
+.check-btn:hover{background:#3c3489}
+.check-btn:disabled{background:#c5c4c0;cursor:default}
+.check-btn.checked{background:#1d9e75}
+
+.score-card{background:linear-gradient(135deg,#534ab7,#7c6cf0);color:#fff;border-radius:16px;padding:28px 32px;margin-top:40px;text-align:center;display:none}
+.score-card.show{display:block;animation:fadeIn 0.5s}
+.score-num{font-size:48px;font-weight:700;margin:8px 0}
+.score-label{font-size:14px;opacity:0.85}
+.score-detail{display:flex;flex-wrap:wrap;justify-content:center;gap:16px;margin-top:16px;font-size:13px;opacity:0.9}
+.score-msg{margin-top:16px;font-size:15px;line-height:1.6}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+@keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-4px)}40%,80%{transform:translateX(4px)}}
+@media(max-width:600px){body{padding:24px 16px 60px}h1{font-size:22px}.match-area{grid-template-columns:1fr}.score-detail{gap:10px}}
+</style>
+</head>
+<body>
+
+<h1>Episode 2: The Interview</h1>
+<p class="subtitle">BBC English at Work | Anna 的面试 | 6 个模块 · 20 题</p>
+
+<div class="progress-text">完成 <span id="done-count">0</span> / <span id="total-count">20</span> 题</div>
+<div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+
+<!-- ==================== MODULE 1: 场景理解 ==================== -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-icon mod1">1</div>
+    <div>
+      <div class="section-title">场景理解 Comprehension</div>
+      <div class="section-desc">从"听懂字面"到"读出弦外之音"</div>
+    </div>
+  </div>
+
+  <!-- Q1 who said it -->
+  <div class="question" id="q1" data-answer="c">
+    <div class="q-num">Question 1 · 谁说的？</div>
+    <div class="q-text">"Oops, silly me. I seem to have spilt tea over your CV." 这句话是谁说的？</div>
+    <div class="options">
+      <div class="option" data-val="a" onclick="pick(this)"><span class="opt-letter">A</span>Anna</div>
+      <div class="option" data-val="b" onclick="pick(this)"><span class="opt-letter">B</span>Paul</div>
+      <div class="option" data-val="c" onclick="pick(this)"><span class="opt-letter">C</span>Denise</div>
+    </div>
+    <div class="feedback correct" id="q1-y">对！这是秘书 <strong>Denise</strong> 说的。她送茶时不小心打翻了，把 Anna 的简历弄湿了。<br><strong>spilt</strong> /spɪlt/ = spill 的过去分词，"打翻/洒出"。</div>
+    <div class="feedback wrong" id="q1-n">注意 "silly me"（我真傻）是一种自嘲的说法。联系上下文，送茶的人是 <strong>Denise</strong>，所以打翻茶的也是她。</div>
+  </div>
+
+  <!-- Q2 inference -->
+  <div class="question" id="q2" data-answer="b">
+    <div class="q-num">Question 2 · 推理</div>
+    <div class="q-text">Paul 多次把 Anna 叫成 "Hannah"。这最可能说明什么？</div>
+    <div class="options">
+      <div class="option" data-val="a" onclick="pick(this)"><span class="opt-letter">A</span>Paul 在故意测试 Anna 的反应</div>
+      <div class="option" data-val="b" onclick="pick(this)"><span class="opt-letter">B</span>Paul 没有认真看 Anna 的 CV</div>
+      <div class="option" data-val="c" onclick="pick(this)"><span class="opt-letter">C</span>Hannah 是另一个面试候选人的名字</div>
+    </div>
+    <div class="feedback correct" id="q2-y">对！Paul 连名字都没记住，说明他比较粗心或者面试前没做准备。这和他桌上"一堆文件里找 CV"（somewhere in this pile）是一致的。<br>这种推理能力在阅读理解中非常重要！</div>
+    <div class="feedback wrong" id="q2-n">结合场景：Paul 的桌上是一堆文件 (this pile)，他要翻半天才找到 CV。加上叫错名字——最合理的推断是他<strong>没认真准备</strong>。这不是故意测试，也没有证据说 Hannah 是别人。</div>
+  </div>
+
+  <!-- Q3 sequence -->
+  <div class="question" id="q3" data-answer="a">
+    <div class="q-num">Question 3 · 排序</div>
+    <div class="q-text">下面哪个是 Anna 回答面试问题的正确顺序？</div>
+    <div class="options">
+      <div class="option" data-val="a" onclick="pick(this)"><span class="opt-letter">A</span>先说销售经验 → 再说团队合作 → 最后说时间管理</div>
+      <div class="option" data-val="b" onclick="pick(this)"><span class="opt-letter">B</span>先说时间管理 → 再说销售经验 → 最后说团队合作</div>
+      <div class="option" data-val="c" onclick="pick(this)"><span class="opt-letter">C</span>先说团队合作 → 再说时间管理 → 最后说销售经验</div>
+    </div>
+    <div class="feedback correct" id="q3-y">对！Paul 先问 sales experience → Anna 说了卖衣服的活动；再问 team working → Anna 说了辩论社财务；然后 Anna 主动提了 timekeeping。</div>
+    <div class="feedback wrong" id="q3-n">回忆面试顺序：Paul 先问 "what <strong>sales experience</strong> can you bring"，再问 "<strong>team working</strong>"，然后 Anna 自己提了 "<strong>Timekeeping</strong> is important to me"。</div>
+  </div>
+
+  <!-- Q4 detail + inference -->
+  <div class="question" id="q4" data-answer="b">
+    <div class="q-num">Question 4 · 细节推理</div>
+    <div class="q-text">Anna 一开始被问到销售经验时回答 "I worked in a shop once."，旁白马上说 "Oh, Anna, sell yourself!"<br><br>旁白为什么不满意这个回答？</div>
+    <div class="options">
+      <div class="option" data-val="a" onclick="pick(this)"><span class="opt-letter">A</span>因为在店里工作不算销售经验</div>
+      <div class="option" data-val="b" onclick="pick(this)"><span class="opt-letter">B</span>因为回答太简短，没有展开具体例子</div>
+      <div class="option" data-val="c" onclick="pick(this)"><span class="opt-letter">C</span>因为 Anna 说了谎</div>
+    </div>
+    <div class="feedback correct" id="q4-y">对！面试的关键是 <strong>sell yourself</strong>（推销自己）。"I worked in a shop once" 太短了，没有细节、没有成就。之后 Anna 用了 "A good example that comes to mind is..." 展开讲了一个具体故事，效果好多了。</div>
+    <div class="feedback wrong" id="q4-n">旁白说的是 "sell yourself"——推销自己。问题不在于经验真不真，而是回答<strong>太简短</strong>，没有用具体例子展示自己的能力。面试要给 detail！</div>
+  </div>
+</div>
+
+<!-- ==================== MODULE 2: 生词 ==================== -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-icon mod2">2</div>
+    <div>
+      <div class="section-title">生词 Vocabulary</div>
+      <div class="section-desc">第 1 步配对（认），第 2 步填句（用）</div>
+    </div>
+  </div>
+
+  <!-- Step 1: Match with distractors -->
+  <div class="question" id="q-match">
+    <div class="q-num">Step 1 · 配对</div>
+    <div class="q-text">点击左边的英文，再点右边对应的中文。注意：右边有 2 个干扰项！</div>
+    <div class="match-area" id="match-area">
+      <div>
+        <div class="match-col-title">English</div>
+        <div class="match-item" data-m="1" onclick="mClick(this,'L')">qualifications</div>
+        <div class="match-item" data-m="2" onclick="mClick(this,'L')">treasurer</div>
+        <div class="match-item" data-m="3" onclick="mClick(this,'L')">budget</div>
+        <div class="match-item" data-m="4" onclick="mClick(this,'L')">punctuality</div>
+        <div class="match-item" data-m="5" onclick="mClick(this,'L')">campaign</div>
+        <div class="match-item" data-m="6" onclick="mClick(this,'L')">arrogant</div>
+      </div>
+      <div>
+        <div class="match-col-title">中文</div>
+        <div class="match-item" data-m="5" onclick="mClick(this,'R')">活动/运动</div>
+        <div class="match-item" data-m="0" onclick="mClick(this,'R')" style="color:#888">经验</div>
+        <div class="match-item" data-m="3" onclick="mClick(this,'R')">预算</div>
+        <div class="match-item" data-m="6" onclick="mClick(this,'R')">傲慢的</div>
+        <div class="match-item" data-m="2" onclick="mClick(this,'R')">财务/出纳</div>
+        <div class="match-item" data-m="1" onclick="mClick(this,'R')">资质/学历</div>
+        <div class="match-item" data-m="4" onclick="mClick(this,'R')">守时</div>
+        <div class="match-item" data-m="0" onclick="mClick(this,'R')" style="color:#888">简历</div>
+      </div>
+    </div>
+    <div class="feedback correct" id="qm-fb">全部配对正确！注意"经验"是 <strong>experience</strong>，"简历"是 <strong>CV</strong>（curriculum vitae）——这两个词本集也出现了，算你的附赠词汇。</div>
+  </div>
+
+  <!-- Step 2: Fill word into sentence -->
+  <div class="question" id="q5" data-answer="b">
+    <div class="q-num">Step 2 · 选词填句 (1/2)</div>
+    <div class="q-text">Anna had to manage a very small <strong>_____</strong> for the debating society.</div>
+    <div class="options">
+      <div class="option" data-val="a" onclick="pick(this)"><span class="opt-letter">A</span>campaign</div>
+      <div class="option" data-val="b" onclick="pick(this)"><span class="opt-letter">B</span>budget</div>
+      <div class="option" data-val="c" onclick="pick(this)"><span class="opt-letter">C</span>qualification</div>
+    </div>
+    <div class="feedback correct" id="q5-y">对！manage a <strong>budget</strong>（管理预算）是固定搭配。Anna 说 "We had a very small budget and I had to make decisions on what to buy."</div>
+    <div class="feedback wrong" id="q5-n"><strong>budget</strong> = 预算。manage a budget 是常见搭配。campaign 是"活动"，qualification 是"资质"，都不搭。</div>
+  </div>
+
+  <div class="question" id="q6" data-answer="c">
+    <div class="q-num">Step 2 · 选词填句 (2/2)</div>
+    <div class="q-text">Your <strong>_____</strong> look impressive, but what experience can you bring?</div>
+    <div class="options">
+      <div class="option" data-val="a" onclick="pick(this)"><span class="opt-letter">A</span>punctuality</div>
+      <div class="option" data-val="b" onclick="pick(this)"><span class="opt-letter">B</span>assignments</div>
+      <div class="option" data-val="c" onclick="pick(this)"><span class="opt-letter">C</span>qualifications</div>
+    </div>
+    <div class="feedback correct" id="q6-y">对！这几乎是 Paul 的原话。<strong>qualifications</strong>（资质/学历）look impressive = 你的学历看起来很厉害。</div>
+    <div class="feedback wrong" id="q6-n">Paul 的原话是 "Your <strong>qualifications</strong> look impressive"。qualifications = 学历/资质，指简历上的教育背景和证书。</div>
+  </div>
+</div>
+
+<!-- ==================== MODULE 3: 关键表达 ==================== -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-icon mod3">3</div>
+    <div>
+      <div class="section-title">关键表达 Key Expressions</div>
+      <div class="section-desc">不只是背下来，要知道什么场景用</div>
+    </div>
+  </div>
+
+  <!-- Step 1: scenario match -->
+  <div class="question" id="q7" data-answer="b">
+    <div class="q-num">Step 1 · 场景选表达 (1/2)</div>
+    <div class="q-text">面试官问："Can you give me an example of good team working?"<br>你应该用哪个表达开头？</div>
+    <div class="options">
+      <div class="option" data-val="a" onclick="pick(this)"><span class="opt-letter">A</span>Timekeeping is important to me.</div>
+      <div class="option" data-val="b" onclick="pick(this)"><span class="opt-letter">B</span>A good example that comes to mind is...</div>
+      <div class="option" data-val="c" onclick="pick(this)"><span class="opt-letter">C</span>I'm particularly proud of...</div>
+    </div>
+    <div class="feedback correct" id="q7-y">对！对方要你举例子，就用 <strong>A good example that comes to mind is...</strong> 开头，然后接具体故事。<br>"I'm particularly proud of" 适合用在展开细节的时候，不是开头。</div>
+    <div class="feedback wrong" id="q7-n">对方要你 give an example（举例子），所以要用<strong>"A good example that comes to mind is..."</strong>来开头。Timekeeping 和 proud of 不是在回答"举例"的问题。</div>
+  </div>
+
+  <div class="question" id="q8" data-answer="c">
+    <div class="q-num">Step 1 · 场景选表达 (2/2)</div>
+    <div class="q-text">你在面试中想强调自己做事靠谱、从不拖延。你应该说：</div>
+    <div class="options">
+      <div class="option" data-val="a" onclick="pick(this)"><span class="opt-letter">A</span>A good example that comes to mind is...</div>
+      <div class="option" data-val="b" onclick="pick(this)"><span class="opt-letter">B</span>I'm particularly proud of...</div>
+      <div class="option" data-val="c" onclick="pick(this)"><span class="opt-letter">C</span>Timekeeping is important to me.</div>
+    </div>
+    <div class="feedback correct" id="q8-y">对！<strong>Timekeeping is important to me.</strong> 直接表达"守时对我很重要"。Anna 后面还跟了一句 "I always try to complete my work on time" 来支撑。</div>
+    <div class="feedback wrong" id="q8-n">想强调"不拖延、守时"，就用 <strong>Timekeeping is important to me.</strong> 它直接传达了"我重视时间管理"这个信号。</div>
+  </div>
+
+  <!-- Step 2: fill with distractors -->
+  <div class="question" id="q-fill">
+    <div class="q-num">Step 2 · 填空还原</div>
+    <div class="q-text">从词库中选词填入空格。注意：词库里有干扰词！</div>
+
+    <div class="fill-area">
+      <div style="font-size:12px;color:#6b6b68;margin-bottom:4px">表达 1</div>
+      <div class="fill-sentence">A good <span class="blank" data-answer="example" onclick="bClick(this)">?</span> that comes to <span class="blank" data-answer="mind" onclick="bClick(this)">?</span>.</div>
+
+      <div style="font-size:12px;color:#6b6b68;margin-bottom:4px;margin-top:14px">表达 2</div>
+      <div class="fill-sentence">I'm <span class="blank" data-answer="particularly" onclick="bClick(this)">?</span> <span class="blank" data-answer="proud" onclick="bClick(this)">?</span> of...</div>
+
+      <div style="font-size:12px;color:#6b6b68;margin-bottom:4px;margin-top:14px">表达 3</div>
+      <div class="fill-sentence"><span class="blank" data-answer="Timekeeping" onclick="bClick(this)">?</span> is <span class="blank" data-answer="important" onclick="bClick(this)">?</span> to me.</div>
+    </div>
+
+    <div class="word-bank" id="word-bank">
+      <span class="word-chip" onclick="cClick(this)">mind</span>
+      <span class="word-chip" onclick="cClick(this)">especially</span>
+      <span class="word-chip" onclick="cClick(this)">Timekeeping</span>
+      <span class="word-chip" onclick="cClick(this)">proud</span>
+      <span class="word-chip" onclick="cClick(this)">serious</span>
+      <span class="word-chip" onclick="cClick(this)">important</span>
+      <span class="word-chip" onclick="cClick(this)">example</span>
+      <span class="word-chip" onclick="cClick(this)">practice</span>
+      <span class="word-chip" onclick="cClick(this)">particularly</span>
+    </div>
+
+    <button class="check-btn" id="fill-check" onclick="checkFill()">检查答案</button>
+    <div class="feedback correct" id="qf-y">完美！三个表达全对。especially 和 particularly 意思接近，但原文用的是 particularly。</div>
+    <div class="feedback wrong" id="qf-n">红色的空填错了。1.5 秒后会显示正确答案——注意看区别。</div>
+  </div>
+</div>
+
+<!-- ==================== MODULE 4: 发音认知 ==================== -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-icon mod4">4</div>
+    <div>
+      <div class="section-title">发音认知 Pronunciation Awareness</div>
+      <div class="section-desc">标出连读位置 + 听感模拟 + 规律分类</div>
+    </div>
+  </div>
+
+  <!-- Q9: click-to-mark -->
+  <div class="question" id="q-pron1">
+    <div class="q-num">Question 9 · 标注练习</div>
+    <div class="q-text">点击下面句子中你认为会发生 <span class="pron-rule plosion">失去爆破</span> 的词缝（两个词之间的竖线），然后点"检查"。</div>
+    <div class="pron-legend">提示：找两个爆破音 (/p/ /b/ /t/ /d/ /k/ /g/) 紧挨着的位置</div>
+    <div class="pron-sentence" id="pron-s1">
+      Hold<span class="word-gap" data-correct="1" onclick="gapClick(this,'pron-s1')"></span>tight<span class="word-gap" data-correct="1" onclick="gapClick(this,'pron-s1')"></span>please,<span class="word-gap" data-correct="0" onclick="gapClick(this,'pron-s1')"></span>I<span class="word-gap" data-correct="0" onclick="gapClick(this,'pron-s1')"></span>need<span class="word-gap" data-correct="0" onclick="gapClick(this,'pron-s1')"></span>to<span class="word-gap" data-correct="0" onclick="gapClick(this,'pron-s1')"></span>get<span class="word-gap" data-correct="1" onclick="gapClick(this,'pron-s1')"></span>back<span class="word-gap" data-correct="1" onclick="gapClick(this,'pron-s1')"></span>to<span class="word-gap" data-correct="0" onclick="gapClick(this,'pron-s1')"></span>work.
+    </div>
+    <button class="check-btn" onclick="checkPron('pron-s1')">检查标注</button>
+    <div class="feedback correct" id="pron-s1-y">全部标对！<br><strong>hold|tight</strong>（/d/+/t/）、<strong>tight|please</strong>（/t/+/p/）、<strong>get|back</strong>（/t/+/b/）、<strong>back|to</strong>（/k/+/t/）——4 处失去爆破。</div>
+    <div class="feedback wrong" id="pron-s1-n">绿色 = 你标对了，红色 = 你标错了，黄色 = 你漏掉了。<br>这句话有 4 处失爆：hol<strong>d|t</strong>ight、tigh<strong>t|p</strong>lease、ge<strong>t|b</strong>ack、bac<strong>k|t</strong>o。</div>
+  </div>
+
+  <!-- Q10: sound simulation -->
+  <div class="question" id="q10" data-answer="a">
+    <div class="q-num">Question 10 · 听感模拟</div>
+    <div class="q-text">"Hold tight please" 快速说出来，听起来最接近哪个？</div>
+    <div class="options">
+      <div class="option" data-val="a" onclick="pick(this)"><span class="opt-letter">A</span>"Hol-tai-please"（d 和 t 几乎消失）</div>
+      <div class="option" data-val="b" onclick="pick(this)"><span class="opt-letter">B</span>"Hold-tight-please"（三个词清晰分开）</div>
+      <div class="option" data-val="c" onclick="pick(this)"><span class="opt-letter">C</span>"Ho-ta-pli"（所有辅音都省略了）</div>
+    </div>
+    <div class="feedback correct" id="q10-y">对！失去爆破只是让爆破音"轻到几乎听不见"，不是把整个音节都删掉。所以你听到的是 "Hol-tai-please"——d 和第二个 t 消失了，但其他部分还在。</div>
+    <div class="feedback wrong" id="q10-n">B 是"朗读式"发音，日常语速不会这么清晰；C 省略得太多了。失去爆破只是让<strong>相邻的爆破音</strong>变轻，其他部分不变。答案是 A。</div>
+  </div>
+
+  <!-- Q11: classify -->
+  <div class="question" id="q11" data-answer="b">
+    <div class="q-num">Question 11 · 规律分类</div>
+    <div class="q-text">"worked in" 这两个词连在一起读时，会发生什么现象？</div>
+    <div class="q-context">worked 的发音是 /wɜːkt/，in 的发音是 /ɪn/</div>
+    <div class="options">
+      <div class="option" data-val="a" onclick="pick(this)"><span class="opt-letter">A</span>失去爆破 — 两个爆破音相邻</div>
+      <div class="option" data-val="b" onclick="pick(this)"><span class="opt-letter">B</span>辅音+元音连读 — 听起来像 "work-tin"</div>
+      <div class="option" data-val="c" onclick="pick(this)"><span class="opt-letter">C</span>没有任何变化</div>
+    </div>
+    <div class="feedback correct" id="q11-y">对！worked 结尾是 /t/，in 开头是元音 /ɪ/，所以发生<strong>辅音+元音连读</strong>：/t/ 粘到 in 上面，听起来像 "work-tin"。<br>记住：辅音遇元音 → 粘在一起读。</div>
+    <div class="feedback wrong" id="q11-n">worked 的最后一个音是 /t/（辅音），in 的第一个音是 /ɪ/（元音）。辅音+元音 = <strong>连读</strong>，不是失去爆破。失去爆破需要两个爆破音挨着。</div>
+  </div>
+</div>
+
+<!-- ==================== MODULE 5: 语法聚焦 ==================== -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-icon mod5">5</div>
+    <div>
+      <div class="section-title">语法聚焦 Grammar Focus</div>
+      <div class="section-desc">一般现在时 vs 一般过去时——什么时候用哪个？</div>
+    </div>
+  </div>
+
+  <!-- Q12 -->
+  <div class="question" id="q12" data-answer="b">
+    <div class="q-num">Question 12</div>
+    <div class="q-text">"Timekeeping <strong>___</strong> important to me."</div>
+    <div class="q-context">Anna 在描述自己一贯的态度。</div>
+    <div class="options">
+      <div class="option" data-val="a" onclick="pick(this)"><span class="opt-letter">A</span>are</div>
+      <div class="option" data-val="b" onclick="pick(this)"><span class="opt-letter">B</span>is</div>
+      <div class="option" data-val="c" onclick="pick(this)"><span class="opt-letter">C</span>was</div>
+    </div>
+    <div class="feedback correct" id="q12-y">对！Timekeeping 是动名词做主语，按<strong>第三人称单数</strong>处理 → 用 <strong>is</strong>。<br>而且这是"一贯态度"（现在也是），用一般现在时。was 会暗示"以前重要，现在不了"。</div>
+    <div class="feedback wrong" id="q12-n">Timekeeping 是动名词做主语，算单数 → 用 <strong>is</strong>（不是 are）。<br>而且 Anna 在说"一直以来的态度"（现在仍然如此），用一般现在时 is，不是过去时 was。</div>
+  </div>
+
+  <!-- Q13 -->
+  <div class="question" id="q13" data-answer="a">
+    <div class="q-num">Question 13</div>
+    <div class="q-text">"I never <strong>___</strong> my assignments in late."</div>
+    <div class="q-context">Anna 在谈大学时期（已经毕业了）的事。</div>
+    <div class="options">
+      <div class="option" data-val="a" onclick="pick(this)"><span class="opt-letter">A</span>handed</div>
+      <div class="option" data-val="b" onclick="pick(this)"><span class="opt-letter">B</span>hand</div>
+      <div class="option" data-val="c" onclick="pick(this)"><span class="opt-letter">C</span>hands</div>
+    </div>
+    <div class="feedback correct" id="q13-y">对！大学已经毕业了，是过去的事 → 用一般过去时 <strong>handed</strong>。<br>短语：<strong>hand in</strong> = 上交/提交。"hand in late" = 迟交。</div>
+    <div class="feedback wrong" id="q13-n">大学时期已经过去了 → 用过去时 <strong>handed</strong>。<br>hand in = 提交（短语动词），过去式 = handed in。</div>
+  </div>
+
+  <!-- Q14 tense feeling -->
+  <div class="question" id="q14" data-answer="b">
+    <div class="q-num">Question 14 · 时态感知</div>
+    <div class="q-text">Paul 说 "We <strong>like</strong> organised people here."<br>这里用 like（一般现在时）而不是 liked（过去时），说明什么？</div>
+    <div class="options">
+      <div class="option" data-val="a" onclick="pick(this)"><span class="opt-letter">A</span>以前喜欢，但现在不确定</div>
+      <div class="option" data-val="b" onclick="pick(this)"><span class="opt-letter">B</span>一直喜欢，现在也是（公司的一贯偏好）</div>
+      <div class="option" data-val="c" onclick="pick(this)"><span class="opt-letter">C</span>只是客气话，没有实际意义</div>
+    </div>
+    <div class="feedback correct" id="q14-y">对！一般现在时表示<strong>一贯的状态/习惯/事实</strong>。"We like organised people" = 我们一直偏好有条理的人，这是公司的用人标准。<br>如果用 liked，就暗示"以前喜欢，现在不了"——完全变了意思！</div>
+    <div class="feedback wrong" id="q14-n">一般现在时表示<strong>一贯的事实</strong>。Paul 说 "We like"（现在时）= 这是我们公司一直以来的偏好。用 liked 会暗示"以前喜欢但现在不了"。答案是 B。</div>
+  </div>
+
+  <!-- Q15 error detection -->
+  <div class="question" id="q15" data-answer="c">
+    <div class="q-num">Question 15 · 找错</div>
+    <div class="q-text">下面哪句话的时态有错误？</div>
+    <div class="options">
+      <div class="option" data-val="a" onclick="pick(this)"><span class="opt-letter">A</span>"I worked in a shop once."</div>
+      <div class="option" data-val="b" onclick="pick(this)"><span class="opt-letter">B</span>"We like organised people here."</div>
+      <div class="option" data-val="c" onclick="pick(this)"><span class="opt-letter">C</span>"I was a treasurer and I have to make decisions."</div>
+    </div>
+    <div class="feedback correct" id="q15-y">对！"I <strong>was</strong>" 是过去时，但 "I <strong>have</strong> to" 突然变成现在时——<strong>前后不一致</strong>。<br>应该是 "I was a treasurer and I <strong>had</strong> to make decisions."<br>时态一致性规则：描述同一段过去的事，前后都用过去时。</div>
+    <div class="feedback wrong" id="q15-n">看 C："I <strong>was</strong> a treasurer"（过去时）and "I <strong>have</strong> to make decisions"（现在时）——同一句话里时态不一致！应该是 "I <strong>had</strong> to make decisions"。</div>
+  </div>
+</div>
+
+<!-- ==================== MODULE 6: 输出 ==================== -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-icon mod6">6</div>
+    <div>
+      <div class="section-title">情景输出 Production</div>
+      <div class="section-desc">从拼句子到自己造句，三级递进</div>
+    </div>
+  </div>
+
+  <!-- Level 1: reorder -->
+  <div class="question" id="q-reorder">
+    <div class="q-num">Level 1 · 语序重组</div>
+    <div class="q-text">把打乱的单词按正确语序排列成句子：</div>
+    <div class="reorder-zone" id="reorder-zone" onclick="removeFromZone(event)"></div>
+    <div id="reorder-bank" style="display:flex;flex-wrap:wrap;gap:8px">
+      <span class="word-block" onclick="addToZone(this)">that</span>
+      <span class="word-block" onclick="addToZone(this)">mind</span>
+      <span class="word-block" onclick="addToZone(this)">good</span>
+      <span class="word-block" onclick="addToZone(this)">comes</span>
+      <span class="word-block" onclick="addToZone(this)">A</span>
+      <span class="word-block" onclick="addToZone(this)">to</span>
+      <span class="word-block" onclick="addToZone(this)">example</span>
+    </div>
+    <button class="check-btn" id="reorder-check" onclick="checkReorder()">检查语序</button>
+    <div class="feedback correct" id="qr-y">完美！<strong>A good example that comes to mind.</strong><br>这个表达的结构是：A good example（主语）+ that comes to mind（定语从句修饰 example）。</div>
+    <div class="feedback wrong" id="qr-n">正确语序是：<strong>A good example that comes to mind.</strong><br>提示：A good example 是一个名词短语，that comes to mind 是修饰它的从句（"浮现在脑海中的"）。</div>
+  </div>
+
+  <!-- Level 2: guided sentence -->
+  <div class="question" id="q-guided">
+    <div class="q-num">Level 2 · 半引导造句</div>
+    <div class="q-text">用本集的关键表达，说一件你在工作中自豪的事：</div>
+    <div class="scaffold">
+      I'm particularly proud of
+      <select id="guided-verb" style="margin:0 4px">
+        <option value="">选一个动词…</option>
+        <option value="how I built">how I built</option>
+        <option value="how I designed">how I designed</option>
+        <option value="how I managed">how I managed</option>
+      </select>
+      <br>
+      <input type="text" id="guided-obj" placeholder="写出你做的事，比如 the AI customer service agent" style="width:100%;padding:8px;border:1px solid #e5e5e3;border-radius:6px;font-size:14px;margin-top:8px;font-family:inherit">
+    </div>
+    <button class="hint-btn" onclick="toggleHint('hint-guided')">看示例</button>
+    <div class="hint-content" id="hint-guided">示例：<strong>I'm particularly proud of how I built the AI customer service agent at my company.</strong><br><br>你的版本不需要完美，重点是用出 "I'm particularly proud of" 这个表达！</div>
+  </div>
+
+  <!-- Level 3: open -->
+  <div class="question" id="q-open">
+    <div class="q-num">Level 3 · 开放输出</div>
+    <div class="q-text">Paul 问 Anna："What exactly made you apply for this job at this company?"<br><br>如果你是 Anna，你会怎么回答？用英文写 1-2 句。<strong>要求：至少用到 1 个本集关键表达。</strong></div>
+    <div class="q-context">三个关键表达：<br>1. The reason I applied is... / 2. I'm particularly interested in... / 3. A good example that comes to mind is...</div>
+    <textarea class="output-area" id="open-answer" placeholder="写在这里... 不用怕写错，这是练习！"></textarea>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
+      <button class="hint-btn" onclick="toggleHint('hint-open')">看提示</button>
+      <button class="hint-btn" onclick="toggleHint('sample-open')">看参考答案</button>
+    </div>
+    <div class="hint-content" id="hint-open">框架：<strong>The reason I applied is that</strong> + 原因。<br>原因可以选：公司增长快 (fastest growing)、行业有趣 (interesting industry)、想学习 (opportunity to learn)。</div>
+    <div class="hint-content" id="sample-open">参考答案：<br>"<strong>The reason I applied</strong> is that Tip Top Trading is one of the fastest growing companies in London. <strong>I'm particularly interested in</strong> sales because I enjoy working with people."<br><br>用了两个表达：The reason I applied + I'm particularly interested in。</div>
+  </div>
+</div>
+
+<!-- ==================== SCORE ==================== -->
+<div class="score-card" id="score-card">
+  <div class="score-label">你的得分</div>
+  <div class="score-num" id="score-num">0 / 20</div>
+  <div class="score-detail">
+    <span>理解 <strong id="sc1">-</strong></span>
+    <span>生词 <strong id="sc2">-</strong></span>
+    <span>表达 <strong id="sc3">-</strong></span>
+    <span>发音 <strong id="sc4">-</strong></span>
+    <span>语法 <strong id="sc5">-</strong></span>
+    <span>输出 <strong id="sc6">-</strong></span>
+  </div>
+  <div class="score-msg" id="score-msg"></div>
+</div>
+
+<script>
+// ========== Core State ==========
+// Scoring items (20 total):
+// Mod1: q1,q2,q3,q4 (4)
+// Mod2: match(1 item, complete all 6), q5, q6 (3)
+// Mod3: q7, q8, fill(1 item, check all blanks) (3)
+// Mod4: pron-s1, q10, q11 (3)
+// Mod5: q12, q13, q14, q15 (4)
+// Mod6: reorder, guided, open (3)
+const S = {
+  answered: new Set(),
+  correct: 0,
+  total: 20,
+  // match
+  mL: null, mR: null, mDone: 0, mTotal: 6,
+  // fill
+  activeBlank: null, fillChecked: false,
+  // reorder
+  reorderChecked: false
+};
+
+function progress() {
+  const n = S.answered.size;
+  document.getElementById('progress-fill').style.width = (n / S.total * 100) + '%';
+  document.getElementById('done-count').textContent = n;
+  if (n >= S.total) showScore();
+}
+
+// ========== Single-select (Q1-Q4, Q5-Q8, Q10-Q15) ==========
+function pick(el) {
+  const q = el.closest('.question');
+  if (q.classList.contains('answered-correct') || q.classList.contains('answered-wrong')) return;
+  const qid = q.id, ans = q.dataset.answer, val = el.dataset.val;
+  const ok = val === ans;
+  q.querySelectorAll('.option').forEach(o => {
+    o.classList.remove('correct','wrong','disabled','show-correct');
+    if (o === el) o.classList.add(ok ? 'correct' : 'wrong');
+    else {
+      o.classList.add('disabled');
+      if (!ok && o.dataset.val === ans) o.classList.add('show-correct');
+    }
+  });
+  q.classList.add(ok ? 'answered-correct' : 'answered-wrong');
+  const fy = document.getElementById(qid + '-y');
+  const fn = document.getElementById(qid + '-n');
+  if (fy) { fy.style.display = ok ? 'block' : 'none'; fy.classList.toggle('show', ok); }
+  if (fn) { fn.style.display = ok ? 'none' : 'block'; fn.classList.toggle('show', !ok); }
+  if (!S.answered.has(qid)) { S.answered.add(qid); if (ok) S.correct++; progress(); }
+}
+
+// ========== Match (Module 2) ==========
+function mClick(el, side) {
+  if (el.classList.contains('matched')) return;
+  // distractors have data-m="0"
+  if (el.dataset.m === '0' && side === 'R') {
+    el.classList.add('wrong-flash');
+    setTimeout(() => el.classList.remove('wrong-flash'), 500);
+    S.mL = null;
+    document.querySelectorAll('#match-area .match-item').forEach(i => i.classList.remove('active'));
+    return;
+  }
+  if (side === 'L') {
+    document.querySelectorAll('#match-area > div:first-child .match-item').forEach(i => i.classList.remove('active'));
+    el.classList.add('active');
+    S.mL = el;
+  } else {
+    S.mR = el;
+  }
+  if (S.mL && S.mR) {
+    if (S.mL.dataset.m === S.mR.dataset.m) {
+      S.mL.classList.remove('active');
+      S.mL.classList.add('matched');
+      S.mR.classList.add('matched');
+      S.mDone++;
+      if (S.mDone >= S.mTotal) {
+        if (!S.answered.has('match')) { S.answered.add('match'); S.correct++; progress(); }
+        const fb = document.getElementById('qm-fb');
+        fb.style.display = 'block'; fb.classList.add('show');
+      }
+    } else {
+      S.mR.classList.add('wrong-flash');
+      setTimeout(() => S.mR.classList.remove('wrong-flash'), 500);
+    }
+    S.mL = null; S.mR = null;
+    document.querySelectorAll('#match-area > div:first-child .match-item').forEach(i => i.classList.remove('active'));
+  }
+}
+
+// ========== Fill (Module 3 Step 2) ==========
+function bClick(blankEl) {
+  if (S.fillChecked) return;
+  // if already filled, return word to bank
+  if (blankEl.textContent !== '?' && blankEl.classList.contains('filled')) {
+    const word = blankEl.textContent;
+    document.querySelectorAll('#word-bank .word-chip').forEach(c => {
+      if (c.textContent === word && c.classList.contains('used')) { c.classList.remove('used'); }
+    });
+    blankEl.textContent = '?';
+    blankEl.classList.remove('filled');
+  }
+  document.querySelectorAll('.blank').forEach(b => b.classList.remove('active-blank'));
+  blankEl.classList.add('active-blank');
+  S.activeBlank = blankEl;
+}
+
+function cClick(chipEl) {
+  if (chipEl.classList.contains('used') || S.fillChecked) return;
+  if (!S.activeBlank) {
+    const blanks = document.querySelectorAll('.blank');
+    for (const b of blanks) { if (b.textContent === '?') { S.activeBlank = b; b.classList.add('active-blank'); break; } }
+  }
+  if (!S.activeBlank) return;
+  S.activeBlank.textContent = chipEl.textContent;
+  S.activeBlank.classList.remove('active-blank');
+  S.activeBlank.classList.add('filled');
+  chipEl.classList.add('used');
+  S.activeBlank = null;
+}
+
+function checkFill() {
+  if (S.fillChecked) return;
+  // check if all blanks are filled
+  const blanks = document.querySelectorAll('.blank');
+  let allFilled = true;
+  blanks.forEach(b => { if (b.textContent === '?') allFilled = false; });
+  if (!allFilled) { alert('还有空没填哦！'); return; }
+
+  S.fillChecked = true;
+  let allCorrect = true;
+  blanks.forEach(b => {
+    const ok = b.textContent.trim() === b.dataset.answer;
+    b.classList.add(ok ? 'correct' : 'wrong');
+    if (!ok) {
+      allCorrect = false;
+      setTimeout(() => {
+        b.textContent = b.dataset.answer;
+        b.classList.remove('wrong'); b.classList.add('correct');
+      }, 1500);
+    }
+  });
+  // count fill as 1 scored item
+  if (!S.answered.has('fill')) {
+    S.answered.add('fill');
+    if (allCorrect) S.correct++;
+    progress();
+  }
+  const btn = document.getElementById('fill-check');
+  btn.classList.add('checked'); btn.textContent = '已检查'; btn.disabled = true;
+  const fy = document.getElementById('qf-y'), fn = document.getElementById('qf-n');
+  if (allCorrect) { fy.style.display='block'; fy.classList.add('show'); }
+  else { fn.style.display='block'; fn.classList.add('show'); }
+}
+
+// ========== Pron: click-to-mark (Module 4) ==========
+function gapClick(el, sid) {
+  if (el.classList.contains('correct-mark') || el.classList.contains('wrong-mark') || el.classList.contains('missed')) return;
+  el.classList.toggle('marked');
+}
+
+function checkPron(sid) {
+  const gaps = document.querySelectorAll('#' + sid + ' .word-gap');
+  let perfect = true;
+  gaps.forEach(g => {
+    const isCorrect = g.dataset.correct === '1';
+    const isMarked = g.classList.contains('marked');
+    g.classList.remove('marked');
+    if (isCorrect && isMarked) g.classList.add('correct-mark');
+    else if (!isCorrect && isMarked) { g.classList.add('wrong-mark'); perfect = false; }
+    else if (isCorrect && !isMarked) { g.classList.add('missed'); perfect = false; }
+  });
+  const fy = document.getElementById(sid + '-y'), fn = document.getElementById(sid + '-n');
+  if (perfect) { fy.style.display='block'; fy.classList.add('show'); }
+  else { fn.style.display='block'; fn.classList.add('show'); }
+  if (!S.answered.has(sid)) { S.answered.add(sid); if (perfect) S.correct++; progress(); }
+}
+
+// ========== Reorder (Module 6) ==========
+function addToZone(el) {
+  if (S.reorderChecked || el.classList.contains('in-zone')) return;
+  el.classList.add('in-zone');
+  const zone = document.getElementById('reorder-zone');
+  const clone = el.cloneNode(true);
+  clone.classList.add('in-zone');
+  clone.setAttribute('data-src', el.textContent);
+  clone.onclick = function() { removeWord(this); };
+  zone.appendChild(clone);
+}
+
+function removeFromZone(e) { /* handled by individual word onclick */ }
+
+function removeWord(el) {
+  if (S.reorderChecked) return;
+  const word = el.getAttribute('data-src');
+  document.querySelectorAll('#reorder-bank .word-block').forEach(b => {
+    if (b.textContent === word && b.classList.contains('in-zone')) b.classList.remove('in-zone');
+  });
+  el.remove();
+}
+
+function checkReorder() {
+  if (S.reorderChecked) return;
+  S.reorderChecked = true;
+  const zone = document.getElementById('reorder-zone');
+  const words = Array.from(zone.children).map(c => c.textContent.trim());
+  const answer = ['A','good','example','that','comes','to','mind'];
+  const ok = words.length === answer.length && words.every((w,i) => w === answer[i]);
+  zone.classList.add(ok ? 'correct' : 'wrong');
+  const fy = document.getElementById('qr-y'), fn = document.getElementById('qr-n');
+  if (ok) { fy.style.display='block'; fy.classList.add('show'); }
+  else {
+    fn.style.display='block'; fn.classList.add('show');
+    setTimeout(() => {
+      zone.innerHTML = '';
+      answer.forEach(w => {
+        const s = document.createElement('span');
+        s.className = 'word-block in-zone';
+        s.textContent = w;
+        zone.appendChild(s);
+      });
+      zone.classList.remove('wrong'); zone.classList.add('correct');
+    }, 2000);
+  }
+  if (!S.answered.has('reorder')) { S.answered.add('reorder'); if (ok) S.correct++; progress(); }
+  const btn = document.getElementById('reorder-check');
+  btn.classList.add('checked'); btn.textContent = '已检查'; btn.disabled = true;
+}
+
+// ========== Hints ==========
+function toggleHint(id) {
+  const el = document.getElementById(id);
+  const showing = el.classList.contains('show');
+  el.style.display = showing ? 'none' : 'block';
+  el.classList.toggle('show');
+  // mark output sections as "done" for progress
+  if (id === 'sample-open' && !S.answered.has('open')) { S.answered.add('open'); progress(); }
+  if (id === 'hint-guided' && !S.answered.has('guided')) { S.answered.add('guided'); progress(); }
+}
+
+// ========== Score ==========
+function showScore() {
+  // Per-module scoring
+  function qOk(id) {
+    const el = document.getElementById(id);
+    return el && el.classList.contains('answered-correct');
+  }
+  function pronOk() {
+    const fb = document.getElementById('pron-s1-y');
+    return fb && fb.style.display === 'block';
+  }
+
+  // Mod1: comprehension (4)
+  const c1 = [qOk('q1'),qOk('q2'),qOk('q3'),qOk('q4')].filter(Boolean).length;
+  // Mod2: vocab — match(1) + q5 + q6 (3)
+  const matchOk = S.answered.has('match') ? 1 : 0;
+  const c2 = matchOk + (qOk('q5')?1:0) + (qOk('q6')?1:0);
+  // Mod3: expressions — q7 + q8 + fill(1) (3)
+  const fillOk = S.answered.has('fill') && document.querySelectorAll('.blank.correct').length === 6 ? 1 : 0;
+  const c3 = (qOk('q7')?1:0) + (qOk('q8')?1:0) + fillOk;
+  // Mod4: pronunciation (3)
+  const c4 = (pronOk()?1:0) + (qOk('q10')?1:0) + (qOk('q11')?1:0);
+  // Mod5: grammar (4)
+  const c5 = [qOk('q12'),qOk('q13'),qOk('q14'),qOk('q15')].filter(Boolean).length;
+  // Mod6: output (3) — completion-based
+  const c6 = (S.answered.has('reorder')?1:0) + (S.answered.has('guided')?1:0) + (S.answered.has('open')?1:0);
+
+  document.getElementById('sc1').textContent = c1+'/4';
+  document.getElementById('sc2').textContent = c2+'/3';
+  document.getElementById('sc3').textContent = c3+'/3';
+  document.getElementById('sc4').textContent = c4+'/3';
+  document.getElementById('sc5').textContent = c5+'/4';
+  document.getElementById('sc6').textContent = c6+'/3';
+
+  const total = S.correct;
+  const scorable = S.total - 2; // guided + open are completion-based
+  document.getElementById('score-num').textContent = total + ' / ' + scorable;
+
+  const pct = total / scorable;
+  let msg = '';
+  if (pct >= 0.9) msg = '太棒了！Episode 2 掌握得很扎实，可以进入 Episode 3 了！';
+  else if (pct >= 0.7) msg = '不错！大部分都答对了。建议把错题对应的原文再听/读一遍。';
+  else if (pct >= 0.5) msg = '及格了，但还有提升空间。建议带着原文重听这集，注意错误集中的模块。';
+  else msg = '别灰心！这集内容很多。建议重新精读 ep02.md 里的原文，然后再做一遍练习。';
+
+  document.getElementById('score-msg').textContent = msg;
+  const card = document.getElementById('score-card');
+  card.classList.add('show');
+  card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+</script>
+
+</body>
+</html>

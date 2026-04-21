@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bob 的英语学习方法论手册</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;color:#1a1a1a;background:#fafaf9;line-height:1.75;max-width:920px;margin:0 auto;padding:48px 28px}
+  h1{font-size:34px;font-weight:600;margin-bottom:8px;letter-spacing:-0.02em}
+  h2{font-size:24px;font-weight:600;margin:64px 0 20px;padding-bottom:12px;border-bottom:2px solid #e5e5e3}
+  h3{font-size:18px;font-weight:600;margin:32px 0 12px;color:#2c2c2a}
+  h4{font-size:15px;font-weight:600;margin:20px 0 8px;color:#3c3489}
+  p{margin:10px 0}
+  .subtitle{color:#6b6b68;font-size:15px;margin-bottom:40px}
+
+  .nav{background:white;border:1px solid #e5e5e3;border-radius:12px;padding:20px 24px;margin-bottom:40px}
+  .nav-title{font-size:12px;color:#6b6b68;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:10px;font-weight:600}
+  .nav ol{margin-left:20px;color:#2c2c2a;font-size:14px}
+  .nav ol li{margin:4px 0}
+  .nav a{color:#534ab7;text-decoration:none}
+  .nav a:hover{text-decoration:underline}
+
+  .principle-box{padding:18px 22px;background:#eeedfe;border-radius:10px;margin:14px 0;border-left:4px solid #534ab7}
+  .principle-num{display:inline-block;width:28px;height:28px;background:#534ab7;color:white;border-radius:50%;text-align:center;line-height:28px;font-weight:600;font-size:14px;margin-right:10px;vertical-align:middle}
+  .principle-title{font-weight:600;color:#3c3489;font-size:16px;display:inline}
+  .principle-desc{margin-top:10px;font-size:14px;color:#2c2c2a}
+  .principle-why{margin-top:8px;font-size:13px;color:#6b6b68;font-style:italic}
+
+  .method-card{background:white;border:1px solid #e5e5e3;border-radius:12px;padding:24px 28px;margin:20px 0}
+  .method-header{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+  .method-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px}
+  .method-icon.reading{background:#e1f5ee}
+  .method-icon.listening{background:#e6f1fb}
+  .method-icon.vocab{background:#eeedfe}
+  .method-icon.grammar{background:#faeeda}
+  .method-title{font-size:18px;font-weight:600}
+  .method-sub{font-size:12px;color:#6b6b68}
+
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;background:white;border-radius:8px;overflow:hidden;border:1px solid #e5e5e3}
+  th,td{text-align:left;padding:12px 14px;border-bottom:1px solid #e5e5e3;vertical-align:top}
+  th{background:#f5f4f1;font-weight:600;font-size:12px;color:#6b6b68;text-transform:uppercase;letter-spacing:0.05em}
+  tr:last-child td{border-bottom:none}
+  td strong{color:#2c2c2a}
+
+  ul{margin:8px 0 8px 24px}
+  ul li{margin:6px 0;font-size:14px}
+  ol{margin:8px 0 8px 24px}
+  ol li{margin:6px 0;font-size:14px}
+
+  .steps{counter-reset:step;margin:16px 0}
+  .step{display:flex;gap:14px;padding:14px 18px;margin:8px 0;background:white;border:1px solid #e5e5e3;border-radius:10px}
+  .step-num{flex-shrink:0;width:32px;height:32px;background:#534ab7;color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:14px}
+  .step-content{flex:1}
+  .step-title{font-weight:600;margin-bottom:4px;font-size:15px}
+  .step-desc{font-size:13px;color:#6b6b68}
+  .step-time{font-size:11px;color:#888780;margin-top:4px;text-transform:uppercase;letter-spacing:0.05em}
+
+  .anti-pattern{background:#fcebeb;border:1px solid #f7c1c1;border-radius:10px;padding:16px 20px;margin:12px 0}
+  .anti-pattern-title{font-weight:600;color:#a32d2d;margin-bottom:6px;font-size:15px}
+  .anti-pattern-title::before{content:"✗ ";font-weight:700}
+  .anti-pattern-desc{font-size:13px;color:#501313}
+
+  .good-pattern{background:#eaf3de;border:1px solid #c0dd97;border-radius:10px;padding:16px 20px;margin:12px 0}
+  .good-pattern-title{font-weight:600;color:#3b6d11;margin-bottom:6px;font-size:15px}
+  .good-pattern-title::before{content:"✓ ";font-weight:700}
+  .good-pattern-desc{font-size:13px;color:#173404}
+
+  .fact-box{background:#e6f1fb;border:1px solid #b5d4f4;border-radius:10px;padding:16px 20px;margin:14px 0}
+  .fact-box-label{font-size:11px;color:#0c447c;text-transform:uppercase;letter-spacing:0.08em;font-weight:600;margin-bottom:6px}
+  .fact-box-content{font-size:14px;color:#042c53}
+
+  .compare-table{margin:14px 0}
+  .compare-table th{text-align:center;background:#eeedfe;color:#3c3489}
+  .compare-table td{vertical-align:top}
+
+  .cefr-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
+  .cefr-cell{padding:14px;border-radius:8px;text-align:center}
+  .cefr-level{font-size:20px;font-weight:600;margin-bottom:4px}
+  .cefr-label{font-size:11px;text-transform:uppercase;letter-spacing:0.05em;opacity:0.7}
+  .cefr-desc{font-size:12px;margin-top:6px;line-height:1.5}
+  .cefr-a{background:#eaf3de;color:#173404}
+  .cefr-b{background:#faeeda;color:#412402}
+  .cefr-c{background:#fcebeb;color:#501313}
+  .cefr-current{box-shadow:0 0 0 3px #534ab7;position:relative}
+  .cefr-current::after{content:"你在这";position:absolute;top:-10px;right:-10px;background:#534ab7;color:white;font-size:10px;padding:3px 8px;border-radius:10px;font-weight:500}
+
+  .example{background:#f5f4f1;padding:12px 16px;border-radius:6px;margin:10px 0;font-size:13px;font-family:"SF Mono",Menlo,monospace}
+  .example-label{font-size:11px;color:#6b6b68;text-transform:uppercase;margin-bottom:4px;letter-spacing:0.05em;font-family:-apple-system,sans-serif}
+
+  .highlight{background:#faeeda;padding:1px 5px;border-radius:3px;color:#633806}
+  .highlight-blue{background:#e6f1fb;padding:1px 5px;border-radius:3px;color:#0c447c}
+  .highlight-purple{background:#eeedfe;padding:1px 5px;border-radius:3px;color:#3c3489}
+
+  .ipa{font-family:"Doulos SIL","Charis SIL",serif;color:#534ab7;font-weight:500}
+
+  .tip{padding:14px 18px;background:#faeeda;border-radius:8px;font-size:13px;margin:14px 0;border-left:3px solid #ef9f27}
+  .tip strong{color:#633806}
+
+  .custom-advice{background:linear-gradient(to bottom right,#eeedfe,#e6f1fb);padding:22px 26px;border-radius:12px;margin:18px 0}
+  .custom-advice h4{color:#3c3489;margin-top:0}
+
+  footer{margin-top:60px;padding-top:20px;border-top:1px solid #e5e5e3;font-size:12px;color:#888780;text-align:center}
+
+  @media print{body{max-width:none;padding:20px}h2{page-break-after:avoid}.method-card,.principle-box{page-break-inside:avoid}}
+  @media(max-width:600px){body{padding:24px 16px}h1{font-size:26px}h2{font-size:20px}.cefr-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<h1>Bob 的英语学习方法论手册</h1>
+<p class="subtitle">English Learning Methodology & Knowledge · 方法论与常识汇编</p>
+
+<div class="nav">
+  <div class="nav-title">目录</div>
+  <ol>
+    <li><a href="#part1">第一部分：7 条核心原则（这是宪法）</a></li>
+    <li><a href="#part2">第二部分：4 种能力的方法论</a></li>
+    <li><a href="#part3">第三部分：必知的英语常识</a></li>
+    <li><a href="#part4">第四部分：反模式 · 这些做法会毁掉你</a></li>
+    <li><a href="#part5">第五部分：针对你的定制建议</a></li>
+  </ol>
+</div>
+
+<!-- ============== PART 1 ============== -->
+
+<h2 id="part1">第一部分 · 7 条核心原则</h2>
+<p>这是我们整个学习方法的底层宪法。所有具体做法都从这里派生。</p>
+
+<div class="principle-box">
+  <span class="principle-num">1</span><span class="principle-title">i+1 原则（跳一跳够得着）</span>
+  <p class="principle-desc">材料难度 = 你的当前水平 + 1 级。太简单没进步，太难会放弃。</p>
+  <p class="principle-why">语言学家 Stephen Krashen 的经典结论：语言习得发生在"可理解的略高输入"中。对你来说：你是 A2，所以目标材料是 B1（有我讲解），不是 B2+。</p>
+</div>
+
+<div class="principle-box">
+  <span class="principle-num">2</span><span class="principle-title">高频 + 低强度 > 低频 + 高强度</span>
+  <p class="principle-desc">每天 30 分钟 × 30 天 >> 每周 3 小时 × 30 天。即使时间总量一样，每天碰的效果要好 3-5 倍。</p>
+  <p class="principle-why">语言是技能，不是学科。技能靠**肌肉记忆**和**神经通路巩固**形成，需要频繁触发，不是一次性大剂量。</p>
+</div>
+
+<div class="principle-box">
+  <span class="principle-num">3</span><span class="principle-title">只记见过的词，不碰词表</span>
+  <p class="principle-desc">不要背 GRE、不要背四六级词表。**只记你本周真实遇到的词**。</p>
+  <p class="principle-why">每个词需要"上下文锚点"才能长期记住。孤立词表的词 3 周后遗忘率 85%+，有语境的词遗忘率 40% 以下。</p>
+</div>
+
+<div class="principle-box">
+  <span class="principle-num">4</span><span class="principle-title">精读 + 泛读 / 主动听 + 被动听 并行</span>
+  <p class="principle-desc">精的练能力（每周 2-3 次），泛的练耐力和习惯（可以每天）。</p>
+  <p class="principle-why">精读训练"看懂一句话的能力"，泛读训练"在不完全懂的情况下继续读的能力"。后者在阅读长文/论文时比前者更关键。</p>
+</div>
+
+<div class="principle-box">
+  <span class="principle-num">5</span><span class="principle-title">嘴模仿过的声音，耳朵才能听见</span>
+  <p class="principle-desc">**影子跟读（Shadowing）**是听力训练的核心动作。你不开口模仿的语音，你的耳朵大概率听不懂。</p>
+  <p class="principle-why">神经科学已证实：大脑处理语音的区域和生成语音的区域是耦合的（mirror neuron 镜像神经元）。所以"只听不说"会严重限制听力上限。</p>
+</div>
+
+<div class="principle-box">
+  <span class="principle-num">6</span><span class="principle-title">60% 就是胜利</span>
+  <p class="principle-desc">任何材料都不追求懂 100%。**抓住主干 + 核心观点 = 成功**。剩下的 40% 留给下一轮复听/复读时慢慢补。</p>
+  <p class="principle-why">追求 100% 理解会让你在一句话上卡 10 分钟，最终放弃整个学习。接受残缺，才能持续前进。</p>
+</div>
+
+<div class="principle-box">
+  <span class="principle-num">7</span><span class="principle-title">不要中文字幕</span>
+  <p class="principle-desc">英文字幕可以，中文字幕是毒药。双语字幕同样是毒药。</p>
+  <p class="principle-why">中文字幕出现后，大脑会在 0.3 秒内放弃英文处理，全程看中文。你以为在"学英语"，其实只是在"看中文电影"。</p>
+</div>
+
+<!-- ============== PART 2 ============== -->
+
+<h2 id="part2">第二部分 · 4 种能力的方法论</h2>
+
+<!-- Reading -->
+<div class="method-card">
+  <div class="method-header">
+    <div class="method-icon reading">📖</div>
+    <div>
+      <div class="method-title">阅读 Reading</div>
+      <div class="method-sub">你的主战场 · 见效最快</div>
+    </div>
+  </div>
+
+  <h4>精读 vs 泛读：两种模式，两种效果</h4>
+  <table class="compare-table">
+    <thead>
+      <tr><th>维度</th><th>精读 Intensive</th><th>泛读 Extensive</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>目标</strong></td><td>吃透一篇</td><td>读过很多篇</td></tr>
+      <tr><td><strong>速度</strong></td><td>慢（20-40 min / 200 词）</td><td>快（5-10 min / 200 词）</td></tr>
+      <tr><td><strong>遇到生词</strong></td><td>查、学、记</td><td>不查、跳过、继续</td></tr>
+      <tr><td><strong>频率</strong></td><td>每周 2-3 次</td><td>可以每天</td></tr>
+      <tr><td><strong>训练</strong></td><td>精准理解</td><td>阅读耐力、语感、自信</td></tr>
+    </tbody>
+  </table>
+
+  <h4>精读标准流程（Claude 协助）</h4>
+  <div class="steps">
+    <div class="step"><div class="step-num">1</div><div class="step-content"><div class="step-title">整体大意</div><div class="step-desc">Claude 用 2-3 句中文给你文章主旨</div></div></div>
+    <div class="step"><div class="step-num">2</div><div class="step-content"><div class="step-title">逐段精读</div><div class="step-desc">关键词释义 + 难句拆解（主谓宾、从句结构）+ 地道表达解释</div></div></div>
+    <div class="step"><div class="step-num">3</div><div class="step-content"><div class="step-title">提炼 5-8 个工作场景高频词</div><div class="step-desc">标注音标、词性、例句、搭配、易混词</div></div></div>
+    <div class="step"><div class="step-num">4</div><div class="step-content"><div class="step-title">3 道理解题</div><div class="step-desc">中文问 / 中文或英文答</div></div></div>
+    <div class="step"><div class="step-num">5</div><div class="step-content"><div class="step-title">英文复述 2-3 句</div><div class="step-desc">你用英文复述核心，Claude 修改润色</div></div></div>
+  </div>
+
+  <h4>泛读 4 铁律</h4>
+  <ul>
+    <li>❌ 绝对不查词典 —— 一次都不行</li>
+    <li>❌ 不要逐字翻译 —— 脑子里能冒出中文就行</li>
+    <li>✅ 读完只问一个问题：我抓到主要意思了吗？</li>
+    <li>✅ 生词超过 30% 就换一篇</li>
+  </ul>
+
+  <h4>长句拆解万能技巧</h4>
+  <ol>
+    <li>先找<strong>主干</strong>（谁 + 做什么 + 什么）</li>
+    <li>再处理修饰（从句、形容词）</li>
+    <li>that / which / who 这些词 90% 是在接"修饰"—— 先跳过不怕丢主干</li>
+  </ol>
+
+  <div class="example">
+    <div class="example-label">例子</div>
+    原句：We're going to hear from some of the employees <span class="highlight-blue">that work so hard to keep the business running smoothly</span>.<br>
+    主干：We're going to hear from some of the employees.<br>
+    修饰：that 后面整段 = 哪些员工？—— 努力让公司顺利运转的。
+  </div>
+</div>
+
+<!-- Listening -->
+<div class="method-card">
+  <div class="method-header">
+    <div class="method-icon listening">🎧</div>
+    <div>
+      <div class="method-title">听力 Listening</div>
+      <div class="method-sub">你最难的一关 · 方法对了 3 个月看到突破</div>
+    </div>
+  </div>
+
+  <h4>听力卡壳分 3 层（"多听"只能解决第 3 层）</h4>
+  <table>
+    <tbody>
+      <tr><td><strong>第 1 层（底层）</strong></td><td>单词的"声音形象"没建立：看见 smoothly 认识，听到 <span class="ipa">/ˈsmuːðli/</span> 陌生</td><td>必须**跟读**才能建立</td></tr>
+      <tr><td><strong>第 2 层（中层）</strong></td><td>连读/弱读没解码：going to 变 gonna，耳朵以为是新词</td><td>必须**有人拆解**给你</td></tr>
+      <tr><td><strong>第 3 层（表层）</strong></td><td>语速跟不上</td><td>多听能解决</td></tr>
+    </tbody>
+  </table>
+
+  <h4>主动听 vs 被动听</h4>
+  <table class="compare-table">
+    <thead><tr><th>模式</th><th>主动听 Active</th><th>被动听 Passive</th></tr></thead>
+    <tbody>
+      <tr><td><strong>对应阅读</strong></td><td>精读</td><td>泛读</td></tr>
+      <tr><td><strong>频率</strong></td><td>每周 2 次 × 30 分钟</td><td>通勤/做饭/运动时随便听</td></tr>
+      <tr><td><strong>目标</strong></td><td>真正提升听力能力</td><td>让耳朵熟悉英语、去抗拒</td></tr>
+      <tr><td><strong>素材</strong></td><td>BBC 6 Min / BBC at Work</td><td>VOA Learning English</td></tr>
+    </tbody>
+  </table>
+
+  <h4>主动听 6 步漏斗（30 分钟标准流程）</h4>
+  <div class="steps">
+    <div class="step"><div class="step-num">1</div><div class="step-content"><div class="step-title">盲听</div><div class="step-desc">不看稿不看字幕，整集听一遍，定位盲点</div><div class="step-time">3 分钟</div></div></div>
+    <div class="step"><div class="step-num">2</div><div class="step-content"><div class="step-title">看稿精读</div><div class="step-desc">默读一遍，圈生词但**先不查**</div><div class="step-time">5 分钟</div></div></div>
+    <div class="step"><div class="step-num">3</div><div class="step-content"><div class="step-title">Claude 拆解</div><div class="step-desc">把 3-5 句没听懂的发我，我标连读/弱读/重音</div><div class="step-time">10 分钟</div></div></div>
+    <div class="step"><div class="step-num">4</div><div class="step-content"><div class="step-title">带稿细听</div><div class="step-desc">一句一句对着稿子听，验证拆解点</div><div class="step-time">5 分钟</div></div></div>
+    <div class="step"><div class="step-num">5</div><div class="step-content"><div class="step-title">影子跟读（关键）</div><div class="step-desc">落后 0.5 秒开口模仿，每句 5 遍</div><div class="step-time">5 分钟</div></div></div>
+    <div class="step"><div class="step-num">6</div><div class="step-content"><div class="step-title">脱稿复听</div><div class="step-desc">合上稿子再听，体会"Aha 时刻"</div><div class="step-time">2 分钟</div></div></div>
+  </div>
+
+  <div class="tip">
+    <strong>⚠️ 不要用 0.75 倍速！</strong>降速破坏连读节奏，你反而听不到真实规律。正确做法是**反复听 1 倍速**，不是降速。
+  </div>
+</div>
+
+<!-- Vocabulary -->
+<div class="method-card">
+  <div class="method-header">
+    <div class="method-icon vocab">📝</div>
+    <div>
+      <div class="method-title">词汇 Vocabulary</div>
+      <div class="method-sub">每天 15 分钟 · 4 轨里唯一每日必做</div>
+    </div>
+  </div>
+
+  <h4>卡片 6 要素模板</h4>
+  <p><strong>正面（极简）</strong>：单词 + 音标</p>
+  <p><strong>背面（6 要素）</strong>：</p>
+  <ol>
+    <li>词性 + 核心释义</li>
+    <li>真实上下文例句（你在哪里遇到的）</li>
+    <li>个人化例句（用你自己工作场景造句）</li>
+    <li>搭配（collocation）—— 学地道表达</li>
+    <li>易混词警告</li>
+    <li>记忆钩子（可选 —— 没灵感宁可空着）</li>
+  </ol>
+
+  <h4>示范卡片：employee</h4>
+  <div class="example">
+    <div class="example-label">正面</div>
+    employee &nbsp;<span class="ipa">/ɪmˈplɔɪiː/</span>
+  </div>
+  <div class="example">
+    <div class="example-label">背面</div>
+    ① n. 员工；雇员<br>
+    ② Tip Top Trading has 50 <span class="highlight">employees</span>.<br>
+    ③ I'm an AI <span class="highlight">employee</span> at Yinman Technology.<br>
+    ④ 搭配：full-time employee / new employee<br>
+    ⑤ ⚠️ 易混：employ<strong>ee</strong>（员工，被雇方）vs employ<strong>er</strong>（雇主，雇人方）<br>
+    ⑥ 💡 钩子：-ee 结尾 = 被动方；-er 结尾 = 主动方（trainer/trainee）
+  </div>
+
+  <h4>每日 15 分钟的拆分用法</h4>
+  <table>
+    <thead><tr><th>时段</th><th>做什么</th><th>为什么</th></tr></thead>
+    <tbody>
+      <tr><td>🌅 起床后 5 分钟</td><td>过"到期卡"（10-15 张）</td><td>晨间记忆清晰，防遗忘</td></tr>
+      <tr><td>🍱 午饭后 3 分钟</td><td>学新卡（3-5 张）</td><td>饭后脑子热身，适合学新东西</td></tr>
+      <tr><td>🌙 睡前 5 分钟</td><td>再扫今天的新卡</td><td>睡眠巩固记忆</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Grammar -->
+<div class="method-card">
+  <div class="method-header">
+    <div class="method-icon grammar">📏</div>
+    <div>
+      <div class="method-title">语法 Grammar</div>
+      <div class="method-sub">每周 1 次 · 按"读懂句子所需最小集"排序</div>
+    </div>
+  </div>
+
+  <h4>优先级顺序（不是传统教材顺序）</h4>
+  <ol>
+    <li><strong>时态</strong> ← 最重要，读论文/邮件每句都在用
+      <ul>
+        <li>be 动词 ✅（已学）</li>
+        <li>一般现在时 ✅（已学）</li>
+        <li>一般过去时（Week 2）</li>
+        <li>现在进行时（Week 3）</li>
+        <li>现在完成时（Week 4）</li>
+        <li>一般将来时（Month 2）</li>
+      </ul>
+    </li>
+    <li><strong>从句</strong> ← 读论文必需
+      <ul>
+        <li>定语从句（that / which / who）</li>
+        <li>宾语从句（that / if / wh-）</li>
+        <li>状语从句（时间/条件/原因）</li>
+      </ul>
+    </li>
+    <li><strong>被动语态</strong> ← 论文高频</li>
+    <li><strong>非谓语动词</strong>（动名词、不定式、分词） ← 地道表达</li>
+    <li><strong>虚拟语气</strong> ← 雅思写作需要</li>
+  </ol>
+
+  <h4>每次 session 节奏</h4>
+  <div class="steps">
+    <div class="step"><div class="step-num">1</div><div class="step-content"><div class="step-title">中文讲原理</div><div class="step-desc">先用中文说清楚这个点的"使用场景"</div></div></div>
+    <div class="step"><div class="step-num">2</div><div class="step-content"><div class="step-title">对比中英差异</div><div class="step-desc">找出中文没有/不同的地方（比如 be 动词的变化）</div></div></div>
+    <div class="step"><div class="step-num">3</div><div class="step-content"><div class="step-title">给 3 组例句</div><div class="step-desc">正面例子 + 反面例子（哪些情况不能用）</div></div></div>
+    <div class="step"><div class="step-num">4</div><div class="step-content"><div class="step-title">5 道针对性练习</div><div class="step-desc">小步练，出一题反馈一题</div></div></div>
+    <div class="step"><div class="step-num">5</div><div class="step-content"><div class="step-title">反馈 + 收入错题本</div><div class="step-desc">错的点记下来，下周复现</div></div></div>
+  </div>
+</div>
+
+<!-- ============== PART 3 ============== -->
+
+<h2 id="part3">第三部分 · 必知的英语常识</h2>
+
+<h3>1. CEFR 等级（国际通用英语水平标准）</h3>
+<p>你未来会在各种考试、招聘要求里看到 CEFR。记住这张图，一辈子受用：</p>
+
+<div class="cefr-grid">
+  <div class="cefr-cell cefr-a">
+    <div class="cefr-level">A1</div>
+    <div class="cefr-label">入门</div>
+    <div class="cefr-desc">能说简单问候、介绍自己</div>
+  </div>
+  <div class="cefr-cell cefr-a cefr-current">
+    <div class="cefr-level">A2</div>
+    <div class="cefr-label">基础</div>
+    <div class="cefr-desc">能处理日常简单对话</div>
+  </div>
+  <div class="cefr-cell cefr-b">
+    <div class="cefr-level">B1</div>
+    <div class="cefr-label">进阶</div>
+    <div class="cefr-desc">能读简单文章、聊熟悉话题</div>
+  </div>
+  <div class="cefr-cell cefr-b">
+    <div class="cefr-level">B2</div>
+    <div class="cefr-label">中级</div>
+    <div class="cefr-desc">能独立工作 · 雅思 5.5-6.5</div>
+  </div>
+  <div class="cefr-cell cefr-c">
+    <div class="cefr-level">C1</div>
+    <div class="cefr-label">高级</div>
+    <div class="cefr-desc">流利表达 · 雅思 7-8</div>
+  </div>
+  <div class="cefr-cell cefr-c">
+    <div class="cefr-level">C2</div>
+    <div class="cefr-label">精通</div>
+    <div class="cefr-desc">接近母语</div>
+  </div>
+</div>
+
+<div class="fact-box">
+  <div class="fact-box-label">换算参考</div>
+  <div class="fact-box-content">
+    <strong>雅思：</strong>A2 ≈ 3.5 · B1 ≈ 4.5-5.5 · <strong>B2 ≈ 5.5-6.5</strong> · C1 ≈ 7-8<br>
+    <strong>托福：</strong>B1 ≈ 42-71 · B2 ≈ 72-94 · C1 ≈ 95-120<br>
+    <strong>美国远程硕士门槛：</strong>通常要求 <strong>雅思 6.0-6.5</strong> / 托福 80-100
+  </div>
+</div>
+
+<h3>2. 音标 IPA 基础</h3>
+<p>你不需要当语言学家，但**看得懂基础 IPA**是听力和词汇的必备技能。最核心的几个：</p>
+
+<h4>元音（看到就能想起口型）</h4>
+<table>
+  <tbody>
+    <tr><td><span class="ipa">/iː/</span></td><td>长 e，如 see, need, beach</td><td>嘴角往两边拉</td></tr>
+    <tr><td><span class="ipa">/ɪ/</span></td><td>短 i，如 sit, big, in</td><td>嘴型比 /iː/ 松</td></tr>
+    <tr><td><span class="ipa">/æ/</span></td><td>如 cat, bad, happy</td><td>嘴巴张大，最"美式"的音</td></tr>
+    <tr><td><span class="ipa">/ə/</span></td><td><strong>schwa / 弱化音</strong>，如 about 的 a, teacher 的 er</td><td>英语最高频的音！所有弱读都变成它</td></tr>
+    <tr><td><span class="ipa">/ɑː/</span></td><td>如 father, car, park</td><td>嘴巴大开</td></tr>
+  </tbody>
+</table>
+
+<h4>辅音里中国人最常搞错的</h4>
+<table>
+  <tbody>
+    <tr><td><span class="ipa">/θ/</span></td><td>think, three（**不是**中文的 s！）</td><td>舌尖轻咬上齿</td></tr>
+    <tr><td><span class="ipa">/ð/</span></td><td>this, the（**不是**中文的 z！）</td><td>舌尖轻咬上齿，振动声带</td></tr>
+    <tr><td><span class="ipa">/v/</span></td><td>very（中文没有，不是 w！）</td><td>上齿碰下唇</td></tr>
+    <tr><td><span class="ipa">/r/</span></td><td>right（卷舌音，别发成中文 "r"）</td><td>舌尖往后卷</td></tr>
+    <tr><td><span class="ipa">/l/</span></td><td>分**清晰 l**（light 开头）和**暗 l**（full 结尾）</td><td>暗 l 几乎像 "w"</td></tr>
+  </tbody>
+</table>
+
+<h3>3. 最高频的 5 条连读规律（覆盖 70% 日常）</h3>
+<table>
+  <thead><tr><th>#</th><th>规律</th><th>例子</th><th>实际发音</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>going to → gonna</td><td>going to hear</td><td><span class="ipa">/ˈɡənə hɪr/</span></td></tr>
+    <tr><td>2</td><td>want to → wanna</td><td>want to go</td><td><span class="ipa">/ˈwɑːnə ɡoʊ/</span></td></tr>
+    <tr><td>3</td><td>got to → gotta</td><td>got to leave</td><td><span class="ipa">/ˈɡɑːtə liːv/</span></td></tr>
+    <tr><td>4</td><td>辅音 + 元音 连读</td><td>pick it up</td><td>pi-ki-tup</td></tr>
+    <tr><td>5</td><td>弱读虚词（of/to/for/a）</td><td>a lot of people</td><td>a lot<span class="ipa">ə</span> people</td></tr>
+  </tbody>
+</table>
+
+<h3>4. 英语时态核心逻辑（中文没有的东西）</h3>
+<p>中文时态通过"昨天/明天/已经/正在"这些**词**表达；英语通过**动词变形**表达。这是中国人学英语最大的认知鸿沟。</p>
+
+<table>
+  <thead><tr><th>时态</th><th>含义</th><th>动词形式</th><th>典型场景</th></tr></thead>
+  <tbody>
+    <tr><td>一般现在</td><td>习惯、事实</td><td>work / works</td><td>I <strong>use</strong> Claude every day.</td></tr>
+    <tr><td>一般过去</td><td>过去发生完了</td><td>worked</td><td>I <strong>built</strong> a RAG system last month.</td></tr>
+    <tr><td>现在进行</td><td>正在做</td><td>am/is/are working</td><td>I'm <strong>debugging</strong> right now.</td></tr>
+    <tr><td>现在完成</td><td>延续到现在 / 刚结束</td><td>have/has worked</td><td>I've <strong>spent</strong> 3 years in AI.</td></tr>
+    <tr><td>一般将来</td><td>未来要做</td><td>will work / be going to</td><td>I <strong>will ship</strong> it next week.</td></tr>
+  </tbody>
+</table>
+
+<div class="tip">
+  <strong>💡 记忆诀窍：</strong>面试谈经验用"现在完成时"，日报写今天干了啥用"一般过去时"，周报写在做什么用"现在进行时"。
+</div>
+
+<h3>5. 美音 vs 英音 —— 选哪个？</h3>
+<div class="fact-box">
+  <div class="fact-box-label">结论</div>
+  <div class="fact-box-content">
+    <strong>不要纠结，选一个坚持就行</strong>。你要申美国硕士 → 推荐美音；但你在用 BBC → 英音也完全可以。<strong>关键是别同时模仿两种</strong>，会变成"没人听得懂的混合口音"。
+  </div>
+</div>
+
+<h4>主要差别（知道即可，不用刻意区分）</h4>
+<ul>
+  <li><strong>car, park</strong>：美音发 r <span class="ipa">/kɑːr/</span>；英音几乎不发 r <span class="ipa">/kɑː/</span></li>
+  <li><strong>can't</strong>：美音 <span class="ipa">/kænt/</span>；英音 <span class="ipa">/kɑːnt/</span>（常被中国听众听成 can）</li>
+  <li><strong>water</strong>：美音 /wɑːd̬ər/（t 变 d）；英音 /ˈwɔːtə/（清晰 t）</li>
+</ul>
+
+<!-- ============== PART 4 ============== -->
+
+<h2 id="part4">第四部分 · 反模式清单</h2>
+<p>这些做法看似合理，但实际上是坑。看清楚它们，避开它们。</p>
+
+<div class="anti-pattern">
+  <div class="anti-pattern-title">死磕词汇表（GRE / 四六级 / 雅思词汇 8000）</div>
+  <div class="anti-pattern-desc">孤立词表的遗忘率 85%+，3 周后几乎全忘。而且你**根本用不到**那些词。时间成本高、收益低。正确做法：只记真实遇到的词。</div>
+</div>
+
+<div class="anti-pattern">
+  <div class="anti-pattern-title">追求"听懂每一个词"</div>
+  <div class="anti-pattern-desc">一句话卡 10 分钟，然后放弃整段。正确做法：60% 就是胜利，抓主干，剩下的靠复听补。</div>
+</div>
+
+<div class="anti-pattern">
+  <div class="anti-pattern-title">用 0.75 倍速听原速材料</div>
+  <div class="anti-pattern-desc">降速破坏连读节奏，你以为在"适应慢版"，其实在学一种"不存在的英语"。正确做法：反复听 1 倍速。</div>
+</div>
+
+<div class="anti-pattern">
+  <div class="anti-pattern-title">看带中文字幕的英语视频</div>
+  <div class="anti-pattern-desc">眼睛会自动跳到中文，大脑 0.3 秒内放弃英文处理。一小时"学习"=一小时看中文电影。正确做法：纯英文字幕或无字幕。</div>
+</div>
+
+<div class="anti-pattern">
+  <div class="anti-pattern-title">把"看美剧"等同于"练听力"</div>
+  <div class="anti-pattern-desc">美剧语速快、俚语多、多人抢话 —— 是 B2+ 的素材。A2 看美剧只是在"听背景音"。正确做法：学习阶段用专门设计的学习材料（BBC Learning / TED-Ed）。</div>
+</div>
+
+<div class="anti-pattern">
+  <div class="anti-pattern-title">"学完语法再开口"</div>
+  <div class="anti-pattern-desc">很多人想"等把语法学完再练口语"，于是 10 年后还没开口。正确做法：从 be 动词开始就开口说，错就错，改就改。</div>
+</div>
+
+<div class="anti-pattern">
+  <div class="anti-pattern-title">一次学 20 个新单词</div>
+  <div class="anti-pattern-desc">大脑一次能处理的新信息有限，超过 7 个就开始相互干扰。正确做法：每天新词不超过 5 个。</div>
+</div>
+
+<div class="anti-pattern">
+  <div class="anti-pattern-title">每天学习 3 小时，学 2 天就崩</div>
+  <div class="anti-pattern-desc">高强度短期冲刺在语言学习里几乎必败。正确做法：每天 30 分钟，坚持 6 个月。</div>
+</div>
+
+<div class="anti-pattern">
+  <div class="anti-pattern-title">学着学着就开始学新东西（阅读→听力→口语→语法→词汇循环跳）</div>
+  <div class="anti-pattern-desc">这是"学习型逃避"—— 每个领域都浅尝辄止，总体没进步。正确做法：4 轨系统+固定排期，不随心情切换。</div>
+</div>
+
+<!-- ============== PART 5 ============== -->
+
+<h2 id="part5">第五部分 · 针对你的定制建议</h2>
+
+<div class="custom-advice">
+  <h4>🎯 基于你档案的核心建议</h4>
+  <p>你不是典型的英语学习者，你是**技术工程师型学员**。有 3 个独特优势和 3 个独特挑战：</p>
+
+  <h4>你的 3 个独特优势</h4>
+  <div class="good-pattern">
+    <div class="good-pattern-title">技术术语比生活词熟</div>
+    <div class="good-pattern-desc">agent、RAG、embedding、fine-tune 你都懂。**优先用 AI 主题素材**，你的阅读上限会比语言学员高 40%+。</div>
+  </div>
+  <div class="good-pattern">
+    <div class="good-pattern-title">有自我监控能力</div>
+    <div class="good-pattern-desc">你会主动回来改答案（第 4 题的手误）—— 这说明你在**实时评估自己**。这种能力比 IQ 更重要。</div>
+  </div>
+  <div class="good-pattern">
+    <div class="good-pattern-title">你是内容创作者</div>
+    <div class="good-pattern-desc">你做"AI 开发日记"—— 这意味着你懂**长期主义**。英语学习最缺的就是这个。</div>
+  </div>
+
+  <h4>你的 3 个独特挑战</h4>
+  <div class="anti-pattern">
+    <div class="anti-pattern-title">工程师的完美主义陷阱</div>
+    <div class="anti-pattern-desc">工程师习惯"bug free"，但语言学习必须容忍 bug。你需要有意识地对抗"必须懂 100%"的本能。</div>
+  </div>
+  <div class="anti-pattern">
+    <div class="anti-pattern-title">信息消费型学习</div>
+    <div class="anti-pattern-desc">你容易被"有没有更好的方法"诱惑，变成看方法论博客却不开口。**Meta 够了就开始做**。</div>
+  </div>
+  <div class="anti-pattern">
+    <div class="anti-pattern-title">零碎时间的杀伤力</div>
+    <div class="anti-pattern-desc">你工作切换频繁，容易一天"以为学了"但其实只学了 5 分钟。解决：**固定时段**比"碎片时间"更可靠。</div>
+  </div>
+
+  <h4>🗺 我给你的 5 条定制建议</h4>
+  <ol>
+    <li><strong>把英语学习融入现有工作流</strong>——读 Anthropic 博客、用 Claude Code 练英语、看技术文档当阅读素材。不要把"学英语"和"工作"分开。</li>
+    <li><strong>每周固定 2 个时段做主动学习</strong>——比如周二周五早上 9 点前 30 分钟。不要"有空就学"，那等于"永远不学"。</li>
+    <li><strong>每月写一篇英文技术短文</strong>（100-200 词即可）—— 结合你的内容品牌 "AI 开发日记"，把学习和产出合流。</li>
+    <li><strong>把英语作为工作元技能，不是额外任务</strong>—— 做 AI 客服 agent 时用英文写 prompt；做 RAG 时读英文文档。这叫"嵌入式学习"，效率最高。</li>
+    <li><strong>承诺 3 个月，不承诺 6 个月</strong>—— 先专心打 3 个月基础，Month 3 末再评估是否继续冲刺雅思。分阶段承诺比长承诺更容易坚持。</li>
+  </ol>
+</div>
+
+<div class="tip">
+  <strong>最后一句话：</strong>你已经从 2 小时 24 轮对话里获取了**远超 99% 学习者**的方法论储备。现在欠缺的不是信息，是**开始**。下一次打开 Claude（或 Claude Code），直接说"开始 Week 1 Day 1"——就这么简单。
+</div>
+
+<footer>Bob's English Learning Methodology · Crafted with Claude · 2026-04-19</footer>
+
+</body>
+</html>
